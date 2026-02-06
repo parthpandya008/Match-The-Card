@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace CardMatch.Services
 {
+    /// Service responsible for providing card sprites
     public class SpriteProvider : ISpriteProvider
     {
         [SerializeField] private Sprite cardBackSprite;
@@ -12,6 +13,8 @@ namespace CardMatch.Services
             this.cardBackSprite = cardBackSprite;
             this.cardFaceSprites = cardFaceSprites;
         }
+
+        #region Sprite Access
         public Sprite GetCardFaceSprite(int id)
         {
             if (id < 0 || id >= cardFaceSprites.Length) return null;
@@ -21,6 +24,7 @@ namespace CardMatch.Services
         public Sprite GetCardBackSprite() => cardBackSprite;
 
         public int AvailableSpritesCount => cardFaceSprites.Length;
+        #endregion
     }
 }
 

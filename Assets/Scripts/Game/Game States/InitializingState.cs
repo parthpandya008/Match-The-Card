@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace CardMatch.GameState
 {
+    /// Initialization state - setting up cards
     public class InitializingState : GameStateBase
     {
         public InitializingState(GameController controller, GameEvents events)
@@ -12,6 +13,7 @@ namespace CardMatch.GameState
         public override void Enter()
         {
             Debug.Log("STATE: InitializingState");
+            gameController.InitializeCards();
         }
     }
 }

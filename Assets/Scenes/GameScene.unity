@@ -383,6 +383,77 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &441012554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 441012555}
+  m_Layer: 5
+  m_Name: Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &441012555
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441012554}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 643360671}
+  m_Father: {fileID: 4375761008750487488}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &643360670
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 643360671}
+  m_Layer: 5
+  m_Name: Spawned Cards
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &643360671
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643360670}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 441012555}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &658666817
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,6 +465,7 @@ GameObject:
   - component: {fileID: 658666820}
   - component: {fileID: 658666819}
   - component: {fileID: 658666818}
+  - component: {fileID: 658666821}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -413,6 +485,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd4d379e328b87944bcc34427696dfb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardMatch.GameController
+  cardPrefab: {fileID: 1745550632022806235, guid: 8c81f54525f87d645912aecc8437b302, type: 3}
+  cardContainer: {fileID: 105570208559565086}
   gamePanel: {fileID: 3164088935610252216}
 --- !u!114 &658666819
 MonoBehaviour:
@@ -428,6 +502,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardMatch.GameManager
   uiManager: {fileID: 1096221711}
   gameController: {fileID: 658666818}
+  objectPoolManager: {fileID: 658666821}
+  cardBackSprite: {fileID: -1071563085, guid: 68519859db9a6534eb56e70542146b0a, type: 3}
+  cardFaceSprites:
+  - {fileID: -1214257176, guid: e28085c4601bd8d49bae40e37313f4b9, type: 3}
+  - {fileID: -1904385467, guid: bf2dad944d9722d49b90b069eb45f018, type: 3}
+  - {fileID: -351375458, guid: 629886a32386dda489239e642e01f860, type: 3}
+  - {fileID: 2110650072, guid: 73e4b4e55365d0d41b9c54afe079f038, type: 3}
+  - {fileID: 747837212, guid: 83a1901a2046ec24f81184f7032c22eb, type: 3}
+  - {fileID: 2121254201, guid: 4e1cf87f4a671a549ab9ef7fa4e4e884, type: 3}
+  - {fileID: 884403500, guid: 23358deac65d1ae43a9ab89aa43884ae, type: 3}
+  - {fileID: 18086989, guid: 01019d14660b9984290c8d1bcc27b7f6, type: 3}
+  - {fileID: 951931998, guid: f64761588a291d24ab9288717b1e6c36, type: 3}
+  - {fileID: 1394810934, guid: 1d4bb031aebde2a4ca83791037f034da, type: 3}
+  - {fileID: -1954011064, guid: 7d1da8e5ee9b1214099ac1db132596fe, type: 3}
+  - {fileID: -297072391, guid: fefeffd9d97aa2442ad9f7689222a445, type: 3}
+  - {fileID: 632353511, guid: 3f8dbc093df673c47a24131ad550cde8, type: 3}
+  - {fileID: 1179477798, guid: 12933b2bdac57594696949e202fd4382, type: 3}
+  - {fileID: -367829948, guid: a5ea8817e8353d140ad456e008e2c08d, type: 3}
+  - {fileID: -1942156823, guid: abbff8607f1259d45b65a0185655a60b, type: 3}
 --- !u!4 &658666820
 Transform:
   m_ObjectHideFlags: 0
@@ -443,6 +536,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &658666821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658666817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49f501e409b5b254c83230298878fbfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectPoolManager
+  pools:
+  - prefab: {fileID: 1745550632022806235, guid: 8c81f54525f87d645912aecc8437b302, type: 3}
+    initialSize: 25
+    tempParent: {fileID: 643360671}
+    autoExpand: 1
+  defaultParent: {fileID: 441012555}
 --- !u!1 &908763540
 GameObject:
   m_ObjectHideFlags: 0
@@ -1573,7 +1684,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 400, y: 430}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3528875741755158586
 GameObject:
@@ -1933,6 +2044,7 @@ RectTransform:
   m_Children:
   - {fileID: 4798550757941206377}
   - {fileID: 3164088935610252216}
+  - {fileID: 441012555}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2149,7 +2261,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &5389298809341037160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2494,7 +2606,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1892655926926777806}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -2507,7 +2619,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 7597254424713655380, guid: 629c717d37acd8b4f8a42781987c38de, type: 3}
+  m_Sprite: {fileID: -1535619292, guid: 811fc96eed6145d4e8f0a4642945655e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 9033517853302948486}
   - component: {fileID: 4158622141550756397}
   - component: {fileID: 9222465813481466624}
+  - component: {fileID: -5875823102728216947}
+  - component: {fileID: 826691724508576754}
   m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
@@ -133,6 +135,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-5875823102728216947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745550632022806235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dfcc997a1eb8684f81baa1f51e47c9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardMatch.Card
+  cardView: {fileID: 826691724508576754}
+--- !u!114 &826691724508576754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745550632022806235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eeea8510480a6c244b5d9b77156a6ad8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CardMatch.CardView
+  image: {fileID: 2666317236883186741}
 --- !u!1 &7432551776572143829
 GameObject:
   m_ObjectHideFlags: 0

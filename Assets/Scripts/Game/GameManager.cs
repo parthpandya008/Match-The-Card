@@ -5,21 +5,27 @@ using UnityEngine;
 
 namespace CardMatch
 {
+    /// Top-level game manager - handles dependency injection and wiring
     public class GameManager : MonoBehaviour
     {
+        #region Inspector References
         [Header("Components")]
         [SerializeField] private UIManager uiManager;
         [SerializeField] private GameController gameController;
 
         [Header("Services")]
         [SerializeField] private SpriteProvider spriteProvider;
+        [SerializeField] private ObjectPoolManager objectPoolManager;
         // Shared event system
-        private GameEvents gameEvents;
 
         [Header("Scene References")]
         [SerializeField] private Sprite cardBackSprite;
         [SerializeField] private Sprite[] cardFaceSprites;
+        #endregion
 
+        private GameEvents gameEvents;
+
+        #region Unity Lifecycle
         private void Awake()
         {
             // Create event system
@@ -27,12 +33,14 @@ namespace CardMatch
             spriteProvider = new SpriteProvider(cardBackSprite, cardFaceSprites);
 
             // Initialize components (pass dependencies)
-            gameController.Initialize(gameEvents, spriteProvider);
+            gameController.Initialize(gameEvents, spriteProvider, objectPoolManager);
             uiManager.Initialize(gameEvents);
 
             Debug.Log("GameManager initialized");
         }
+        #endregion
 
+        #region Game Callbacks 
         // Called from Start button
         public void StartGame()
         {
@@ -46,6 +54,7 @@ namespace CardMatch
         {
             gameController.StopGame();
         }
+        #endregion
     }
 }
     
