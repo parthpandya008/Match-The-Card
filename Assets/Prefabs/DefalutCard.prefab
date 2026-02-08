@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -5875823102728216947}
   - component: {fileID: 826691724508576754}
   m_Layer: 5
-  m_Name: Card
+  m_Name: DefalutCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

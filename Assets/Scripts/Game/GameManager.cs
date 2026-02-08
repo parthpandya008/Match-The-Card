@@ -1,3 +1,4 @@
+using CardMatch.Factory;
 using CardMatch.GameEvent;
 using CardMatch.Services;
 using CardMatch.UI;
@@ -21,6 +22,7 @@ namespace CardMatch
         [Header("Scene References")]
         [SerializeField] private Sprite cardBackSprite;
         [SerializeField] private Sprite[] cardFaceSprites;
+        [SerializeField] private CardFactoryConfig cardFactoryConfig;
         #endregion
 
         private GameEvents gameEvents;
@@ -33,7 +35,8 @@ namespace CardMatch
             spriteProvider = new SpriteProvider(cardBackSprite, cardFaceSprites);
 
             // Initialize components (pass dependencies)
-            gameController.Initialize(gameEvents, spriteProvider, objectPoolManager);
+            gameController.Initialize(gameEvents, spriteProvider, 
+                objectPoolManager, cardFactoryConfig);
             uiManager.Initialize(gameEvents);
 
             Debug.Log("GameManager initialized");

@@ -485,8 +485,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd4d379e328b87944bcc34427696dfb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardMatch.GameController
-  gamePanel: {fileID: 3164088935610252216}
+  cardPrefab: {fileID: 1745550632022806235, guid: 8c81f54525f87d645912aecc8437b302, type: 3}
   cardContainer: {fileID: 105570208559565086}
+  gamePanel: {fileID: 3164088935610252216}
 --- !u!114 &658666819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -520,7 +521,6 @@ MonoBehaviour:
   - {fileID: 1179477798, guid: 12933b2bdac57594696949e202fd4382, type: 3}
   - {fileID: -367829948, guid: a5ea8817e8353d140ad456e008e2c08d, type: 3}
   - {fileID: -1942156823, guid: abbff8607f1259d45b65a0185655a60b, type: 3}
-  cardFactoryConfig: {fileID: 11400000, guid: 5dda943ef30b0574280873f253d6e4ae, type: 2}
 --- !u!4 &658666820
 Transform:
   m_ObjectHideFlags: 0

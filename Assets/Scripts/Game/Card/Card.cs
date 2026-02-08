@@ -1,3 +1,4 @@
+using CardMatch.Factory;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ namespace CardMatch
     public class Card : MonoBehaviour, ICard
     {
         [SerializeField] private CardView cardView;
+        [SerializeField] private CardType cardType = CardType.Default;
 
         private int id;
         private int spriteID = -1;
@@ -28,6 +30,8 @@ namespace CardMatch
                 UpdateSprite();
             }
         }
+
+        public CardType CardType => cardType;
         #endregion
 
         #region Initialization

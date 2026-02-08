@@ -1,3 +1,4 @@
+using CardMatch.Factory;
 using UnityEngine;
 
 namespace CardMatch
@@ -7,5 +8,7 @@ namespace CardMatch
     {
         int ID { get; set; }
         int SpriteID { get; set; }
+        CardType CardType { get;}
+        void Initialize(ISpriteProvider provider);
     }
 }

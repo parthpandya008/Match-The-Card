@@ -40,17 +40,10 @@ namespace CardMatch.Layout
             // Calculate starting position (centered grid)
             float startX = -cellWidth * (cols / 2.0f);
             float startY = -cellHeight * (rows / 2.0f);
-
-            // Adjust for even grids to center properly
-            if (cols % 2 == 0)
-            {
-                startX += cellWidth / 2;
-            }
-            if (rows % 2 == 0)
-            {
-                startY += cellHeight / 2;
-            }
-
+                                                 
+            startX += cellWidth / 2;                                    
+            startY += cellHeight / 2;
+            
             return new CardLayoutData
             {
                 TotalCards = totalCards,
@@ -67,7 +60,7 @@ namespace CardMatch.Layout
         #endregion
 
         #region Position Queries
-        /// Get position for a specific card index        
+        // Get position for a specific card index        
         public Vector3 GetCardPosition(CardLayoutData layout, int index)
         {
             int row = index / layout.Cols;
