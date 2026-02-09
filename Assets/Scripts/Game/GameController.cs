@@ -46,7 +46,7 @@ namespace CardMatch
             allocationStrategy = new RandomCardAllocationStrategy();
             cardFactory = new CardFactory(cardContainer,spriteProvider, objectPoolManager, cardFactoryConfig);
             ChangeState(new IdleState(this, gameEvents));
-            Debug.Log("GameController initialized");
+            Logger.Log("GameController initialized", this);
         }
 
         private void Update()
@@ -77,7 +77,7 @@ namespace CardMatch
             // Allocate sprites to cards
             allocationStrategy.AllocateSprites(cards.ToArray(), spriteProvider.AvailableSpritesCount);
 
-            Debug.Log($"Setup {cards.Count} cards");
+            Logger.Log($"Setup {cards.Count} cards", this);
             gameEvents.RaiseGameStarted();
         }
         #endregion
@@ -93,7 +93,7 @@ namespace CardMatch
 
         private void OnCardClicked(ICard card)
         {
-            Debug.Log($"GameController received click on card {card.ID}");
+            Logger.Log($"GameController received click on card {card.ID}", this);
             if (!(currentState is PlayingState)) return;
 
             card.Flip(!card.IsFlipped);

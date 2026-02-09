@@ -57,7 +57,7 @@ namespace CardMatch
 
         private void OnClick()
         {
-            Debug.Log($"Card {ID} clicked");
+            Logger.Log($"Card {ID} clicked", this);
             OnCardClicked?.Invoke(this);
         }
         #endregion
@@ -77,7 +77,7 @@ namespace CardMatch
 
             ChangeSprite();
 
-            Debug.Log($"Card {ID} flipped to {(isFlipped ? "FACE" : "BACK")}");
+            Logger.Log($"Card {ID} flipped to {(isFlipped ? "FACE" : "BACK")}", this);
         }
 
 

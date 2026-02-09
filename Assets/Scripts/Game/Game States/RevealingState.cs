@@ -16,7 +16,7 @@ namespace CardMatch.GameState
 
         public override void Enter()
         {
-            Debug.Log("Game State: Revealing");
+            Logger.Log("Game State: Revealing");
             revealTime = 0f;
             gameEvents.RaiseGameStarted();
             gameController.FlipAllCards(true);

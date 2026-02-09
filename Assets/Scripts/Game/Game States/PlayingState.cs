@@ -11,7 +11,7 @@ namespace CardMatch.GameState
             base(controller, events)    { }
         public override void Enter()
         {
-            Debug.Log("STATE: Playing");
+            Logger.Log("STATE: Playing");
         }
     }
 }

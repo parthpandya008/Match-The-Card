@@ -11,7 +11,7 @@ namespace CardMatch.GameState
 
         public override void Enter()
         {
-            Debug.Log("STATE: Idle");
+            Logger.Log("STATE: Idle");
         }
     }
 }

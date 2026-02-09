@@ -12,7 +12,7 @@ namespace CardMatch.GameState
 
         public override void Enter()
         {
-            Debug.Log("STATE: InitializingState");
+            Logger.Log("STATE: InitializingState");
             gameController.InitializeCards();
             gameController.ChangeState(new RevealingState(gameController, gameEvents));
         }

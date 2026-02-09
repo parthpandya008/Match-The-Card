@@ -30,7 +30,7 @@ namespace CardMatch.UI
             
             UpdateLabel();
             SubscribeToEvents();
-            Debug.Log("UIManager initialized");
+            Logger.Log("UIManager initialized", this);
         }
 
         #region Unity Lifecycle

@@ -35,13 +35,13 @@ namespace CardMatch.Factory
                     }
                     else
                     {
-                        Debug.LogWarning($"CardType {data.CardType} has null prefab in config");
+                        Logger.LogWarning($"CardType {data.CardType} has null prefab in config");
                     }
                 }
             }
             else
             {
-                Debug.LogError("CardFactoryConfig is null or has no card types!");
+                Logger.LogError("CardFactoryConfig is null or has no card types!");
             }
         }
 
@@ -51,7 +51,7 @@ namespace CardMatch.Factory
         {
             if (!cardTypeData.TryGetValue(cardType, out var data))
             {
-                Debug.LogError($"No configuration for card type: {cardType}");
+                Logger.LogError($"No configuration for card type: {cardType}");
                 return null;
             }
 
@@ -65,12 +65,12 @@ namespace CardMatch.Factory
 
             if (cardObject == null)
             {
-                Debug.LogError("Failed to spawn card from pool");
+                Logger.LogError("Failed to spawn card from pool");
                 return null;
             }
             if (parentTransform == null)
             {
-                Debug.LogError("Parent transform is null");
+                Logger.LogError("Parent transform is null");
                 DestroyCard(cardObject, data.CardType);
                 return null;
             }
@@ -80,7 +80,7 @@ namespace CardMatch.Factory
             if (card == null)
             {
                 DestroyCard(cardObject, data.CardType);
-                Debug.LogError("Failed to get ICard component from prefab");
+                Logger.LogError("Failed to get ICard component from prefab");
                 return null;
             }
             // Set transform properties
@@ -111,7 +111,7 @@ namespace CardMatch.Factory
             }
             else
             {
-                Debug.LogWarning($"Cannot despawn card - unknown type: {cardType}");
+                Logger.LogWarning($"Cannot despawn card - unknown type: {cardType}");
             }
         }
 
@@ -120,7 +120,7 @@ namespace CardMatch.Factory
         {
             if (!cardTypeData.TryGetValue(cardType, out var data))
             {
-                Debug.LogWarning($"No configuration for card type: {cardType}");
+                Logger.LogWarning($"No configuration for card type: {cardType}");
                 return;
             }
 

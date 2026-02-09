@@ -27,7 +27,7 @@ public class ObjectPoolManager : MonoBehaviour
         {
             if (poolItem.prefab == null)
             {
-                Debug.LogWarning("Pool has null prefab. Skipping.");
+                Logger.LogWarning("Pool has null prefab. Skipping.");
                 continue;
             }
            
@@ -38,7 +38,7 @@ public class ObjectPoolManager : MonoBehaviour
             
             if (poolDictionary.ContainsKey(poolItem.prefab))
             {
-                Debug.LogWarning($"Duplicate pool for prefab: {poolItem.prefab.name}. Using first occurrence.");
+                Logger.LogWarning($"Duplicate pool for prefab: {poolItem.prefab.name}. Using first occurrence.");
                 continue;
             }
 
@@ -52,7 +52,7 @@ public class ObjectPoolManager : MonoBehaviour
                 CreateNewObject(poolItem.prefab);
             }
 
-            Debug.Log($"Initialized pool for {poolItem.prefab.name}: {poolItem.initialSize} objects created");
+            Logger.Log($"Initialized pool for {poolItem.prefab.name}: {poolItem.initialSize} objects created");
         }
     }
 
@@ -62,13 +62,13 @@ public class ObjectPoolManager : MonoBehaviour
     {
         if (prefab == null)
         {
-            Debug.LogError("Cannot spawn null prefab");
+            Logger.LogError("Cannot spawn null prefab");
             return null;
         }
         
         if (!poolDictionary.ContainsKey(prefab))
         {
-            Debug.LogWarning($"No pool found for {prefab.name}.");
+            Logger.LogWarning($"No pool found for {prefab.name}.");
             return null;
         }
 
@@ -95,7 +95,7 @@ public class ObjectPoolManager : MonoBehaviour
             }
             else
             {                
-                Debug.LogWarning($"Pool for {prefab.name}");
+                Logger.LogWarning($"Pool for {prefab.name}");
                 return null;
             }
         }
@@ -131,19 +131,19 @@ public class ObjectPoolManager : MonoBehaviour
     {
         if (obj == null)
         {
-            Debug.LogWarning("Attempted to despawn null object");
+            Logger.LogWarning("Attempted to despawn null object");
             return false;
         }
 
         if (prefab == null)
         {
-            Debug.LogError("Prefab reference is null");
+            Logger.LogError("Prefab reference is null");
             return false;
         }
        
         if (!poolDictionary.ContainsKey(prefab))
         {
-            Debug.LogWarning($"No pool found for prefab: {prefab.name}. Destroying object instead.");
+            Logger.LogWarning($"No pool found for prefab: {prefab.name}. Destroying object instead.");
             Destroy(obj);
             return false;
         }

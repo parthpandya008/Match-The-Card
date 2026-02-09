@@ -39,7 +39,7 @@ namespace CardMatch
                 objectPoolManager, cardFactoryConfig);
             uiManager.Initialize(gameEvents);
 
-            Debug.Log("GameManager initialized");
+            Logger.Log("GameManager initialized", this);
         }
         #endregion
 
@@ -48,7 +48,7 @@ namespace CardMatch
         public void StartGame()
         {
             var (rows, cols) = uiManager.GetGridSize();
-            Debug.Log($"Starting game: {rows}x{cols}");
+            Logger.Log($"Starting game: {rows}x{cols}", this);
             gameController.StartGame(rows, cols);
         }
 

@@ -29,7 +29,7 @@ namespace CardMatch.Factory
             {
                 if (!uniqueTypes.Add(data.CardType))
                 {
-                    Debug.LogWarning($"Duplicate CardType found: {data.CardType} in {name}");
+                    Logger.LogWarning($"Duplicate CardType found: {data.CardType} in {name}", this);
                 }
             }
         }
