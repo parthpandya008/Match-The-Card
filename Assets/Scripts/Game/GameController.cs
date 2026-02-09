@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using CardMatch.Factory;
 using CardMatch.GameEvent;
@@ -48,6 +49,11 @@ namespace CardMatch
             Debug.Log("GameController initialized");
         }
 
+        private void Update()
+        {
+            currentState?.Update(Time.deltaTime);
+        }
+
         #region Card Setup
         // Initialize cards based on grid size
         public void InitializeCards()
@@ -64,6 +70,7 @@ namespace CardMatch
             {
                 Vector3 pos = layoutManager.GetCardPosition(layout, i);
                 ICard card = cardFactory.CreateCard(CardType.Default, i, pos, layout.CellScale);
+                card.OnCardClicked += OnCardClicked;
                 cards.Add(card);
             }
 
@@ -74,6 +81,23 @@ namespace CardMatch
             gameEvents.RaiseGameStarted();
         }
         #endregion
+
+        // Flip all cards to hide them
+        public void FlipAllCards(bool faceUp)
+        {            
+            foreach (var card in cards)
+            {
+                card.Flip(faceUp);
+            }
+        }        
+
+        private void OnCardClicked(ICard card)
+        {
+            Debug.Log($"GameController received click on card {card.ID}");
+            if (!(currentState is PlayingState)) return;
+
+            card.Flip(!card.IsFlipped);
+        }
 
         #region Game Callbacks 
         public void StartGame(int rows, int cols)
@@ -94,6 +118,6 @@ namespace CardMatch
             currentState?.Exit();
             currentState = newState;
             currentState.Enter();
-        }
+        } 
     }
 }

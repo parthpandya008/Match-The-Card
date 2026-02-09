@@ -15,7 +15,7 @@ namespace CardMatch
         [SerializeField] private GameController gameController;
 
         [Header("Services")]
-        [SerializeField] private SpriteProvider spriteProvider;
+        private SpriteProvider spriteProvider;
         [SerializeField] private ObjectPoolManager objectPoolManager;
         // Shared event system
 

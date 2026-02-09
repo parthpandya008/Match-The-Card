@@ -1,3 +1,4 @@
+using System;
 using CardMatch.Factory;
 using UnityEngine;
 
@@ -9,6 +10,12 @@ namespace CardMatch
         int ID { get; set; }
         int SpriteID { get; set; }
         CardType CardType { get;}
+
+        bool IsFlipped { get;} //// true = face up
         void Initialize(ISpriteProvider provider);
+        void Flip(bool faceUp);
+
+        // Event for card click
+        event Action<ICard> OnCardClicked;
     }
 }

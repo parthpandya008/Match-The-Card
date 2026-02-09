@@ -6,11 +6,13 @@ namespace CardMatch.Factory
 {
     public class CardFactory 
     {
+        #region Fields
         // Factory for creating card instances
         private readonly Transform parentTransform;
         private readonly ISpriteProvider spriteProvider;   
         private readonly ObjectPoolManager objectPoolManager;
         private readonly Dictionary<CardType, CardFactoryConfig.CardTypeData> cardTypeData;
+        #endregion
 
         public CardFactory(
             Transform parentTransform,
@@ -43,6 +45,7 @@ namespace CardMatch.Factory
             }
         }
 
+        #region Card Creation
         //Create a card
         public ICard CreateCard(CardType cardType, int cardId, Vector3 position, float scale)
         {
@@ -91,7 +94,9 @@ namespace CardMatch.Factory
 
             return card;
         }
+        #endregion
 
+        #region Card Destruction
         //Despawn a specific card
         public void DestroyCard(GameObject cardObject, CardType cardType)
         {
@@ -152,5 +157,6 @@ namespace CardMatch.Factory
                 }
             }
         }
-    }    
+        #endregion
+    }
 }
