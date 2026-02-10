@@ -15,6 +15,7 @@ namespace CardMatch
         private int id;
         private int spriteID = -1;
         private bool isFlipped;
+        private bool isMatched = false;
 
 
         private ISpriteProvider spriteProvider;
@@ -57,6 +58,9 @@ namespace CardMatch
 
         private void OnClick()
         {
+            // Can't click if already matched or face-up
+            if (isMatched || isFlipped) return;
+
             Logger.Log($"Card {ID} clicked", this);
             OnCardClicked?.Invoke(this);
         }
@@ -78,6 +82,14 @@ namespace CardMatch
             ChangeSprite();
 
             Logger.Log($"Card {ID} flipped to {(isFlipped ? "FACE" : "BACK")}", this);
+        }
+
+        public void SetMatched()
+        {
+            isMatched = true;
+            isFlipped = true;  // Keep showing face
+
+            cardView.SetMatchCardUI();            
         }
 
 

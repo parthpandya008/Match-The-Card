@@ -20,13 +20,22 @@ namespace CardMatch
         }
         #endregion
 
-        #region View Updates
-        // Start is called once before the first execution of Update after the MonoBehaviour is created       
+        #region View Updates         
         public void UpdateSprite(Sprite sprite)
         {
             if (image != null && sprite != null)
             {
                 image.sprite = sprite;
+            }
+        }
+
+        public void SetMatchCardUI()
+        {
+            if (image != null)
+            {
+                Color color = image.color;
+                color.a = 0.5f; 
+                image.color = color;
             }
         }
         #endregion

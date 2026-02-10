@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using CardMatch.Factory;
 using CardMatch.GameEvent;
 using CardMatch.GameState;
@@ -36,6 +37,11 @@ namespace CardMatch
         private int currentRows;
         private int currentCols;
 
+        //Card match
+        private int firstSelectedCardId = -1;
+        private int secondSelectedCardId = -1;
+        private bool isProcessingMatch = false;
+
         public void Initialize(GameEvents events, ISpriteProvider spriteProvider, 
                     ObjectPoolManager objectPoolManager, CardFactoryConfig cardFactoryConfig)
         {
@@ -63,8 +69,11 @@ namespace CardMatch
             cards.Clear();
 
             // Calculate layout ( supports rows x cols)
-            CardLayoutData layout = layoutManager?.CalculateLayout(currentRows, currentCols);            
+            CardLayoutData layout = layoutManager?.CalculateLayout(currentRows, currentCols);
 
+            firstSelectedCardId = -1;
+            secondSelectedCardId = -1;
+            
             // Spawn cards
             for (int i = 0; i < layout.TotalCards; i++)
             {
@@ -92,11 +101,72 @@ namespace CardMatch
         }        
 
         private void OnCardClicked(ICard card)
-        {
-            Logger.Log($"GameController received click on card {card.ID}", this);
+        {           
             if (!(currentState is PlayingState)) return;
 
+            ProcessCardSelection(card);            
+        }
+
+        private async Task ProcessCardSelection(ICard card)
+        {
+            if (isProcessingMatch) return;
+
             card.Flip(!card.IsFlipped);
+            gameEvents.RaiseCardFlipped(card.ID);
+
+            // Track selection
+            if (firstSelectedCardId == -1)
+            {
+                // First card selected
+                firstSelectedCardId = card.ID;
+                Logger.Log($"First card selected: {card.ID} (Sprite: {card.SpriteID})");
+            }
+            else if (secondSelectedCardId == -1 && card.ID != firstSelectedCardId)
+            {
+                // Second card selected
+                secondSelectedCardId = card.ID;
+                Logger.Log($"Second card selected: {card.ID} (Sprite: {card.SpriteID})");
+
+                // Check for match
+                isProcessingMatch = true;
+
+                CheckMatchAsync();
+
+            }
+        }
+        private async void CheckMatchAsync()
+        {
+            // Wait a moment so player can see both cards
+            await Task.Delay(500); // milliseconds
+
+            ICard firstCard = cards[firstSelectedCardId];
+            ICard secondCard = cards[secondSelectedCardId];
+
+            if (firstCard.SpriteID == secondCard.SpriteID)
+            {
+                // MATCH!
+                Logger.Log($"MATCH! Cards {firstCard.ID} and {secondCard.ID} (Sprite: {firstCard.SpriteID})");
+
+                firstCard.SetMatched();
+                secondCard.SetMatched();
+
+                gameEvents.RaiseCardsMatched(firstCard.ID, secondCard.ID);
+            }
+            else
+            {
+                // NO MATCH
+                Logger.Log($"No match. {firstCard.ID}(S:{firstCard.SpriteID}) != {secondCard.ID}(S:{secondCard.SpriteID})");
+
+                firstCard.Flip(false);
+                secondCard.Flip(false);
+
+                gameEvents.RaiseCardsMismatched(firstCard.ID, secondCard.ID);
+            }
+
+            // Reset selection
+            firstSelectedCardId = -1;
+            secondSelectedCardId = -1;
+            isProcessingMatch = false;
         }
 
         #region Game Callbacks 

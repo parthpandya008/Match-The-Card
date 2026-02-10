@@ -14,6 +14,7 @@ namespace CardMatch
         bool IsFlipped { get;} //// true = face up
         void Initialize(ISpriteProvider provider);
         void Flip(bool faceUp);
+        void SetMatched();
 
         // Event for card click
         event Action<ICard> OnCardClicked;
