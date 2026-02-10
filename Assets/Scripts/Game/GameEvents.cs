@@ -8,20 +8,24 @@ namespace CardMatch.GameEvent
     {
         // Game lifecycle events
         public event Action OnGameStarted;
+        public event Action OnGameCompleted;
+        public event Action OnGameReset;
 
         // Card events
         public event Action<int> OnCardFlipped;
         public event Action<int, int> OnCardsMatched;
         public event Action<int, int> OnCardsMismatched;
+        public event Action<int> OnRemainingPairsChanged;
 
 
         // Methods to raise events
         public void RaiseGameStarted() => OnGameStarted?.Invoke();
+        public void RaiseGameCompleted() => OnGameCompleted?.Invoke();
+        public void RaiseGameReset() => OnGameReset?.Invoke();
         
         public void RaiseCardFlipped(int cardId) => OnCardFlipped?.Invoke(cardId);
-
         public void RaiseCardsMatched(int card1Id, int card2Id) => OnCardsMatched?.Invoke(card1Id, card2Id);
-
         public void RaiseCardsMismatched(int card1Id, int card2Id) => OnCardsMismatched?.Invoke(card1Id, card2Id);
+        public void RaiseRemainingCardsChanged(int remainingPair) => OnRemainingPairsChanged?.Invoke(remainingPair);
     }
 }

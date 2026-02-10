@@ -16,31 +16,41 @@ namespace CardMatch
     // Game controller - handles all game logic and flow
     public class GameController : MonoBehaviour
     {
+        #region Inspector References
         [Header("Scene References")]               
         [SerializeField] private RectTransform gamePanel;
         [SerializeField] private RectTransform cardContainer;
+        #endregion
 
+        #region Dependencies
         // Injected dependencies
         private GameEvents gameEvents;
         private ISpriteProvider spriteProvider;
         private ObjectPoolManager objectPoolManager;
         private CardFactory cardFactory;
+        #endregion
 
+        #region Internal Systems
         // Internal systems
         private CardLayoutManager layoutManager;
         private ICardAllocationStrategy allocationStrategy;
+        #endregion
 
+        #region Game Feilds
         // Game state
         private List<ICard> cards = new List<ICard>();
-        private IGameState currentState;
-
+        private IGameState currentState;       
         private int currentRows;
         private int currentCols;
+        #endregion
 
+        #region Card Match Feilds
         //Card match
         private int firstSelectedCardId = -1;
         private int secondSelectedCardId = -1;
+        private int remainingPairs;
         private bool isProcessingMatch = false;
+        #endregion
 
         public void Initialize(GameEvents events, ISpriteProvider spriteProvider, 
                     ObjectPoolManager objectPoolManager, CardFactoryConfig cardFactoryConfig)
@@ -60,7 +70,7 @@ namespace CardMatch
             currentState?.Update(Time.deltaTime);
         }
 
-        #region Card Setup
+        #region Card Setup + Interaction
         // Initialize cards based on grid size
         public void InitializeCards()
         {
@@ -70,7 +80,7 @@ namespace CardMatch
 
             // Calculate layout ( supports rows x cols)
             CardLayoutData layout = layoutManager?.CalculateLayout(currentRows, currentCols);
-
+            remainingPairs = layout.TotalCards / 2;
             firstSelectedCardId = -1;
             secondSelectedCardId = -1;
             
@@ -88,8 +98,9 @@ namespace CardMatch
 
             Logger.Log($"Setup {cards.Count} cards", this);
             gameEvents.RaiseGameStarted();
+            gameEvents.RaiseRemainingCardsChanged(remainingPairs);
         }
-        #endregion
+       
 
         // Flip all cards to hide them
         public void FlipAllCards(bool faceUp)
@@ -106,7 +117,9 @@ namespace CardMatch
 
             ProcessCardSelection(card);            
         }
+        #endregion
 
+        #region Match Logic
         private async Task ProcessCardSelection(ICard card)
         {
             if (isProcessingMatch) return;
@@ -149,8 +162,11 @@ namespace CardMatch
 
                 firstCard.SetMatched();
                 secondCard.SetMatched();
+                remainingPairs--;
+                CheckGameWin();
 
                 gameEvents.RaiseCardsMatched(firstCard.ID, secondCard.ID);
+                gameEvents.RaiseRemainingCardsChanged(remainingPairs);
             }
             else
             {
@@ -167,7 +183,16 @@ namespace CardMatch
             firstSelectedCardId = -1;
             secondSelectedCardId = -1;
             isProcessingMatch = false;
+        }       
+
+        private void CheckGameWin()
+        {
+            if (remainingPairs == 0)
+            {                              
+                ChangeState(new CompletedState(this, gameEvents));
+            }
         }
+        #endregion
 
         #region Game Callbacks 
         public void StartGame(int rows, int cols)
@@ -179,15 +204,21 @@ namespace CardMatch
 
         public void StopGame()
         {
+            // Clear existing
+            cardFactory.DestroyAllCards();
+            cards.Clear();
+            remainingPairs = -1;
             ChangeState(new IdleState(this, gameEvents));
+
+            gameEvents.RaiseGameReset();
         }
-        #endregion
 
         public void ChangeState(IGameState newState)
         {
             currentState?.Exit();
             currentState = newState;
             currentState.Enter();
-        } 
+        }
+        #endregion
     }
 }

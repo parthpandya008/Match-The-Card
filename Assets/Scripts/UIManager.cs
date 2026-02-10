@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using CardMatch.GameEvent;
 using TMPro;
 using UnityEngine;
@@ -13,12 +14,17 @@ namespace CardMatch.UI
         [Header("Panels")]
         [SerializeField] private GameObject gameCanvas;
         [SerializeField] private GameObject mainCanvas;
+        [SerializeField] private GameObject mainMenuPanel;
 
         [Header("Grid Size Controls")]
         [SerializeField] private TextMeshProUGUI rowsLabel;
         [SerializeField] private Slider rowsSlider;
         [SerializeField] private TextMeshProUGUI colsLabel;
         [SerializeField] private Slider colsSlider;
+
+        [Header("Scene References")]
+        [SerializeField] private TextMeshProUGUI remainingPairsLabel;
+        [SerializeField] private GameObject gameCompletePanel;
         #endregion
 
         private GameEvents gameEvents;
@@ -47,6 +53,9 @@ namespace CardMatch.UI
             if (gameEvents != null)
             {
                 gameEvents.OnGameStarted -= OnGameStarted;
+                gameEvents.OnGameCompleted -= OnGameCompleted;
+                gameEvents.OnGameReset -= OnGameReset;
+                gameEvents.OnRemainingPairsChanged -= OnRemainingPairsChanged;
             }
         }
         #endregion
@@ -55,9 +64,13 @@ namespace CardMatch.UI
         {
             if (gameEvents != null)
             {
-                gameEvents.OnGameStarted += OnGameStarted;
+                gameEvents.OnGameStarted += OnGameStarted;               
+                gameEvents.OnGameCompleted += OnGameCompleted;
+                gameEvents.OnGameReset += OnGameReset;
+                gameEvents.OnRemainingPairsChanged += OnRemainingPairsChanged;
             }            
         }
+        
 
         #region UI Event Handlers
         private void OnRowsChanged(float value)
@@ -75,7 +88,35 @@ namespace CardMatch.UI
         private void OnGameStarted()
         {
             gameCanvas.SetActive(true);
+            mainMenuPanel.SetActive(false); 
         }
+
+        private void OnRemainingPairsChanged(int remaining)
+        {
+            if (remainingPairsLabel != null)
+            {
+                remainingPairsLabel.text = $"Pairs Left: {remaining}";
+            }
+        }
+
+        private void OnGameReset()
+        {
+            gameCanvas.SetActive(false);
+            mainMenuPanel.SetActive(true);
+        }
+
+        private void OnGameCompleted()
+        {
+            StartCoroutine(ShowGameCompleteUI());
+        }
+
+        private IEnumerator ShowGameCompleteUI()
+        {
+           gameCompletePanel.SetActive(true);
+            yield return new WaitForSeconds(2f);
+            OnGameReset();
+        }
+
         #endregion
 
         #region UI Updates
