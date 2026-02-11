@@ -50,7 +50,12 @@ namespace CardMatch
         private int secondSelectedCardId = -1;
         private int remainingPairs;
         private bool isProcessingMatch = false;
+        private float cardMatchTimer;
         #endregion
+
+        public float CardMatchTimer => cardMatchTimer;
+        //TODO: Add this to a config or difficulty settings/ GameData (Scriptable Object)
+        public float MisMatchPanelty => 1;
 
         public void Initialize(GameEvents events, ISpriteProvider spriteProvider, 
                     ObjectPoolManager objectPoolManager, CardFactoryConfig cardFactoryConfig)
@@ -117,6 +122,12 @@ namespace CardMatch
 
             ProcessCardSelection(card);            
         }
+
+        public void SetCardMatchTimer(float elapsedTime)
+        {
+            cardMatchTimer = elapsedTime;
+        }       
+
         #endregion
 
         #region Match Logic
@@ -184,12 +195,13 @@ namespace CardMatch
             secondSelectedCardId = -1;
             isProcessingMatch = false;
         }       
+        
 
         private void CheckGameWin()
         {
             if (remainingPairs == 0)
             {                              
-                ChangeState(new CompletedState(this, gameEvents));
+                ChangeState(new CompletedState(this, gameEvents), cardMatchTimer);
             }
         }
         #endregion

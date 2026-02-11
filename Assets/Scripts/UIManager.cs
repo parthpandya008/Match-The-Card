@@ -24,6 +24,7 @@ namespace CardMatch.UI
 
         [Header("Scene References")]
         [SerializeField] private TextMeshProUGUI remainingPairsLabel;
+        [SerializeField] private TextMeshProUGUI timeLabel;
         [SerializeField] private GameObject gameCompletePanel;
         #endregion
 
@@ -46,6 +47,7 @@ namespace CardMatch.UI
             // Setup sliders
             rowsSlider?.onValueChanged.AddListener(OnRowsChanged);
             colsSlider?.onValueChanged.AddListener(OnColsChanged);
+            OnGameReset(); // Start with main menu
         }
 
         private void OnDestroy()
@@ -56,6 +58,7 @@ namespace CardMatch.UI
                 gameEvents.OnGameCompleted -= OnGameCompleted;
                 gameEvents.OnGameReset -= OnGameReset;
                 gameEvents.OnRemainingPairsChanged -= OnRemainingPairsChanged;
+                gameEvents.OnTimeUpdated -= OnTimeUpdated;
             }
         }
         #endregion
@@ -68,6 +71,7 @@ namespace CardMatch.UI
                 gameEvents.OnGameCompleted += OnGameCompleted;
                 gameEvents.OnGameReset += OnGameReset;
                 gameEvents.OnRemainingPairsChanged += OnRemainingPairsChanged;
+                gameEvents.OnTimeUpdated += OnTimeUpdated;
             }            
         }
         
@@ -99,10 +103,21 @@ namespace CardMatch.UI
             }
         }
 
+        private void OnTimeUpdated(float time)
+        {
+            if (timeLabel != null)
+            {
+                time = Mathf.FloorToInt(time);
+                timeLabel.text = $"Time: {time}s";
+            }
+        }
+
         private void OnGameReset()
         {
             gameCanvas.SetActive(false);
+            gameCompletePanel.SetActive(false);
             mainMenuPanel.SetActive(true);
+            OnTimeUpdated(0);
         }
 
         private void OnGameCompleted()

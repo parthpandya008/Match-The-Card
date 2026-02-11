@@ -17,6 +17,7 @@ namespace CardMatch.GameEvent
         public event Action<int, int> OnCardsMismatched;
         public event Action<int> OnRemainingPairsChanged;
 
+        public event Action<float> OnTimeUpdated;
 
         // Methods to raise events
         public void RaiseGameStarted() => OnGameStarted?.Invoke();
@@ -27,5 +28,7 @@ namespace CardMatch.GameEvent
         public void RaiseCardsMatched(int card1Id, int card2Id) => OnCardsMatched?.Invoke(card1Id, card2Id);
         public void RaiseCardsMismatched(int card1Id, int card2Id) => OnCardsMismatched?.Invoke(card1Id, card2Id);
         public void RaiseRemainingCardsChanged(int remainingPair) => OnRemainingPairsChanged?.Invoke(remainingPair);
+
+        public void RaiseTimeUpdated(float time) => OnTimeUpdated?.Invoke(time);
     }
 }

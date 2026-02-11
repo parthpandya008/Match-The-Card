@@ -7,12 +7,16 @@ namespace CardMatch.GameState
 {
     public class CompletedState : GameStateBase
     {
-        public CompletedState(GameController controller, GameEvents events)
-            : base(controller, events) { }
+        private readonly float completionTime;
+        public CompletedState(GameController controller, GameEvents events, float completionTime)
+            : base(controller, events) 
+        {
+            this.completionTime = completionTime;
+        }
 
         public override void Enter()
         {
-            Logger.Log("STATE: Completed - YOU WIN!");
+            Logger.Log($"STATE: Completed in {completionTime}s - YOU WIN!");
             gameEvents.RaiseGameCompleted();
         }
     }
