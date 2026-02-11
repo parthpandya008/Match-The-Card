@@ -8,7 +8,7 @@ namespace CardMatch.GameEvent
     {
         // Game lifecycle events
         public event Action OnGameStarted;
-        public event Action OnGameCompleted;
+        public event Action<float> OnGameCompleted;
         public event Action OnGameReset;
 
         // Card events
@@ -21,7 +21,7 @@ namespace CardMatch.GameEvent
 
         // Methods to raise events
         public void RaiseGameStarted() => OnGameStarted?.Invoke();
-        public void RaiseGameCompleted() => OnGameCompleted?.Invoke();
+        public void RaiseGameCompleted(float completionTime) => OnGameCompleted?.Invoke(completionTime);
         public void RaiseGameReset() => OnGameReset?.Invoke();
         
         public void RaiseCardFlipped(int cardId) => OnCardFlipped?.Invoke(cardId);

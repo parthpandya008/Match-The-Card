@@ -17,7 +17,7 @@ namespace CardMatch.GameState
         public override void Enter()
         {
             Logger.Log($"STATE: Completed in {completionTime}s - YOU WIN!");
-            gameEvents.RaiseGameCompleted();
+            gameEvents.RaiseGameCompleted(completionTime);
         }
     }
 }

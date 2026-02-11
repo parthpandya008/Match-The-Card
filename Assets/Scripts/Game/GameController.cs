@@ -201,7 +201,7 @@ namespace CardMatch
         {
             if (remainingPairs == 0)
             {                              
-                ChangeState(new CompletedState(this, gameEvents), cardMatchTimer);
+                ChangeState(new CompletedState(this, gameEvents, cardMatchTimer));
             }
         }
         #endregion

@@ -25,6 +25,7 @@ namespace CardMatch.UI
         [Header("Scene References")]
         [SerializeField] private TextMeshProUGUI remainingPairsLabel;
         [SerializeField] private TextMeshProUGUI timeLabel;
+        [SerializeField] private TextMeshProUGUI winLabel;
         [SerializeField] private GameObject gameCompletePanel;
         #endregion
 
@@ -120,14 +121,16 @@ namespace CardMatch.UI
             OnTimeUpdated(0);
         }
 
-        private void OnGameCompleted()
+        private void OnGameCompleted(float completionTime)
         {
-            StartCoroutine(ShowGameCompleteUI());
+            StartCoroutine(ShowGameCompleteUI(completionTime));
         }
 
-        private IEnumerator ShowGameCompleteUI()
+        private IEnumerator ShowGameCompleteUI(float completionTime)
         {
            gameCompletePanel.SetActive(true);
+            if(winLabel != null)
+                winLabel.text = $"You Win!\nTime: {completionTime:F2} s";
             yield return new WaitForSeconds(2f);
             OnGameReset();
         }
