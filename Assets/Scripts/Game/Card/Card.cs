@@ -89,7 +89,7 @@ namespace CardMatch
             isMatched = true;
             isFlipped = true;  // Keep showing face
 
-            cardView.SetMatchCardUI();            
+            cardView?.SetMatchCardUI();            
         }
 
 
@@ -110,7 +110,7 @@ namespace CardMatch
                 sprite = spriteProvider.GetCardBackSprite();
             }
 
-            cardView.UpdateSprite(sprite);
+            cardView?.UpdateSprite(sprite);
         }
 
         public void SetBackSprite()
@@ -118,8 +118,15 @@ namespace CardMatch
             if (spriteProvider != null)
             {
                 Sprite sprite = spriteProvider.GetCardBackSprite();
-                cardView.UpdateSprite(sprite);
+                cardView?.UpdateSprite(sprite);
             }                          
+        }
+
+        public void Reset()
+        {
+            Flip(false);
+            isMatched = false;
+            cardView?.Reset();
         }
         #endregion
     }

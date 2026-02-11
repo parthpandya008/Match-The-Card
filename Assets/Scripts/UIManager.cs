@@ -26,7 +26,8 @@ namespace CardMatch.UI
         [SerializeField] private TextMeshProUGUI remainingPairsLabel;
         [SerializeField] private TextMeshProUGUI timeLabel;
         [SerializeField] private TextMeshProUGUI winLabel;
-        [SerializeField] private GameObject gameCompletePanel;
+        [SerializeField] private TextMeshProUGUI resetButtonLabel;
+        [SerializeField] private GameObject gameCompletePanel;        
         #endregion
 
         private GameEvents gameEvents;
@@ -92,8 +93,10 @@ namespace CardMatch.UI
 
         private void OnGameStarted()
         {
-            gameCanvas.SetActive(true);
-            mainMenuPanel.SetActive(false); 
+            gameCanvas?.SetActive(true);
+            mainMenuPanel?.SetActive(false);
+            if (resetButtonLabel != null)
+                resetButtonLabel.text = "Reset";
         }
 
         private void OnRemainingPairsChanged(int remaining)
@@ -115,24 +118,24 @@ namespace CardMatch.UI
 
         private void OnGameReset()
         {
-            gameCanvas.SetActive(false);
-            gameCompletePanel.SetActive(false);
-            mainMenuPanel.SetActive(true);
+            gameCanvas?.SetActive(false);
+            gameCompletePanel?.SetActive(false);
+            mainMenuPanel?.SetActive(true);
             OnTimeUpdated(0);
         }
 
         private void OnGameCompleted(float completionTime)
         {
-            StartCoroutine(ShowGameCompleteUI(completionTime));
+            ShowGameCompleteUI(completionTime);
         }
 
-        private IEnumerator ShowGameCompleteUI(float completionTime)
+        private void ShowGameCompleteUI(float completionTime)
         {
-           gameCompletePanel.SetActive(true);
+           gameCompletePanel?.SetActive(true);
             if(winLabel != null)
-                winLabel.text = $"You Win!\nTime: {completionTime:F2} s";
-            yield return new WaitForSeconds(2f);
-            OnGameReset();
+                winLabel.text = $"You Win!\nTime: {completionTime:F2} s";            
+            if(resetButtonLabel != null)
+                resetButtonLabel.text = "Menu";
         }
 
         #endregion

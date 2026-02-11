@@ -38,6 +38,16 @@ namespace CardMatch
                 image.color = color;
             }
         }
+
+        public void Reset()
+        {
+            if (image != null)
+            {
+                Color color = image.color;
+                color.a = 1f;
+                image.color = color;
+            }
+        }
         #endregion
     }
 }

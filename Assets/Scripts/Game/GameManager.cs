@@ -52,10 +52,10 @@ namespace CardMatch
             gameController.StartGame(rows, cols);
         }
 
-        // Called from Give Up button
+        // Called from Stop/Menu button
         public void StopGame()
         {
-            gameController.StopGame();
+            gameController.ResetGame();
         }
         #endregion
     }

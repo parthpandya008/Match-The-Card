@@ -16,6 +16,8 @@ namespace CardMatch
         void Flip(bool faceUp);
         void SetMatched();
 
+        void Reset();
+
         // Event for card click
         event Action<ICard> OnCardClicked;
     }

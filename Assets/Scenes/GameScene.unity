@@ -709,6 +709,7 @@ MonoBehaviour:
   remainingPairsLabel: {fileID: 1169579309}
   timeLabel: {fileID: 1662295684}
   winLabel: {fileID: 2046981379}
+  resetButtonLabel: {fileID: 1917623309}
   gameCompletePanel: {fileID: 2123479145}
 --- !u!4 &1096221712
 Transform:
@@ -1142,7 +1143,7 @@ GameObject:
   - component: {fileID: 1917623310}
   - component: {fileID: 1917623309}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: ResetButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1316,7 +1317,7 @@ GameObject:
   - component: {fileID: 2046981380}
   - component: {fileID: 2046981379}
   m_Layer: 5
-  m_Name: winText
+  m_Name: WinText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

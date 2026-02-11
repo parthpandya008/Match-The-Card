@@ -10,6 +10,7 @@ using Unity.IO.LowLevel.Unsafe;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEngine.Rendering.GPUSort;
 
 namespace CardMatch
 {
@@ -60,20 +61,26 @@ namespace CardMatch
         public void Initialize(GameEvents events, ISpriteProvider spriteProvider, 
                     ObjectPoolManager objectPoolManager, CardFactoryConfig cardFactoryConfig)
         {
+            if(events == null || spriteProvider == null || 
+                objectPoolManager == null || cardFactoryConfig == null)
+            {
+                Logger.LogError("GameController initialization failed due to null dependencies!");
+                return;
+            }
             gameEvents = events;
             this.spriteProvider = spriteProvider;
             this.objectPoolManager = objectPoolManager;
             layoutManager = new CardLayoutManager(gamePanel);
             allocationStrategy = new RandomCardAllocationStrategy();
             cardFactory = new CardFactory(cardContainer,spriteProvider, objectPoolManager, cardFactoryConfig);
-            ChangeState(new IdleState(this, gameEvents));
+            ChangeState(new IdleState(this, gameEvents));      
             Logger.Log("GameController initialized", this);
         }
 
         private void Update()
         {
             currentState?.Update(Time.deltaTime);
-        }
+        }   
 
         #region Card Setup + Interaction
         // Initialize cards based on grid size
@@ -94,6 +101,11 @@ namespace CardMatch
             {
                 Vector3 pos = layoutManager.GetCardPosition(layout, i);
                 ICard card = cardFactory.CreateCard(CardType.Default, i, pos, layout.CellScale);
+                if(card == null)
+                {
+                    Logger.LogError($"Failed to create card at index {i}");
+                    return;
+                }
                 card.OnCardClicked += OnCardClicked;
                 cards.Add(card);
             }
@@ -162,6 +174,10 @@ namespace CardMatch
         {
             // Wait a moment so player can see both cards
             await Task.Delay(500); // milliseconds
+            if (currentState is not PlayingState)
+            {
+                return;
+            }
 
             ICard firstCard = cards[firstSelectedCardId];
             ICard secondCard = cards[secondSelectedCardId];
@@ -214,12 +230,22 @@ namespace CardMatch
             ChangeState(new InitializingState(this, gameEvents));
         }
 
-        public void StopGame()
+        //Reset the card and math fields
+        public void ResetGame()
         {
             // Clear existing
             cardFactory.DestroyAllCards();
+            for (int i = 0; i < cards.Count; i++)
+            {
+                cards[i].Reset();
+                cards[i].OnCardClicked -= OnCardClicked;
+            }
             cards.Clear();
+            cardFactory.DestroyAllCards();
             remainingPairs = -1;
+            firstSelectedCardId = -1;
+            secondSelectedCardId = -1;
+            isProcessingMatch = false;
             ChangeState(new IdleState(this, gameEvents));
 
             gameEvents.RaiseGameReset();
@@ -230,7 +256,7 @@ namespace CardMatch
             currentState?.Exit();
             currentState = newState;
             currentState.Enter();
-        }
+        }     
         #endregion
     }
 }
