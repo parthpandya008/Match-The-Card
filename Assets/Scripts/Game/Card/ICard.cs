@@ -10,6 +10,7 @@ namespace CardMatch
         int ID { get; set; }
         int SpriteID { get; set; }
         CardType CardType { get;}
+        CardView View { get; }
 
         bool IsFlipped { get;} //// true = face up
         void Initialize(ISpriteProvider provider);

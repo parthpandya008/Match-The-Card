@@ -42,7 +42,8 @@ namespace CardMatch
         }
        
         public CardType CardType => cardType;       
-        public bool IsFlipped => isFlipped;                
+        public bool IsFlipped => isFlipped;
+        public CardView View => cardView;
 
         #endregion
 
@@ -59,7 +60,7 @@ namespace CardMatch
         private void OnClick()
         {
             // Can't click if already matched or face-up
-            if (isMatched || isFlipped) return;
+            if (isMatched || isFlipped || cardView.IsAnimating) return;
 
             Logger.Log($"Card {ID} clicked", this);
             OnCardClicked?.Invoke(this);
@@ -77,11 +78,18 @@ namespace CardMatch
         // Flip the card (toggle face-up/face-down)
         public void Flip(bool faceUp)
         {
-            isFlipped = faceUp;
+            if (cardView.IsAnimating) return;  // Can't flip while animating
 
+            cardView.PlayFlipAnimation(() =>
+            {
+                // This runs at 90° midpoint
+                isFlipped = faceUp;
+                ChangeSprite();
+            });
+
+            /*isFlipped = faceUp;
             ChangeSprite();
-
-            Logger.Log($"Card {ID} flipped to {(isFlipped ? "FACE" : "BACK")}", this);
+            Logger.Log($"Card {ID} flipped to {(isFlipped ? "FACE" : "BACK")}", this);*/
         }
 
         public void SetMatched()

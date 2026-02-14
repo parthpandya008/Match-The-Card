@@ -7,10 +7,12 @@ using CardMatch.GameEvent;
 using CardMatch.GameState;
 using CardMatch.Layout;
 using Unity.IO.LowLevel.Unsafe;
+using Unity.VisualScripting;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static UnityEngine.Rendering.GPUSort;
+using static UnityEngine.Rendering.STP;
 
 namespace CardMatch
 {
@@ -52,6 +54,10 @@ namespace CardMatch
         private int remainingPairs;
         private bool isProcessingMatch = false;
         private float cardMatchTimer;
+
+        //TODO:Add MATCH_CHECK_WAIT_DURATION into a config or difficulty settings/ GameData(Scriptable Object)
+        //Or as per the game requirement
+        private const int MATCH_CHECK_WAIT_DURATION = 1000; // milliseconds
         #endregion
 
         public float CardMatchTimer => cardMatchTimer;
@@ -130,7 +136,11 @@ namespace CardMatch
 
         private void OnCardClicked(ICard card)
         {           
-            if (!(currentState is PlayingState)) return;
+            if (currentState is not PlayingState || isProcessingMatch 
+                        || card.View == null || card.View.IsAnimating)
+            {
+                return;
+            }                                
 
             ProcessCardSelection(card);            
         }
@@ -145,8 +155,6 @@ namespace CardMatch
         #region Match Logic
         private async Task ProcessCardSelection(ICard card)
         {
-            if (isProcessingMatch) return;
-
             card.Flip(!card.IsFlipped);
             gameEvents.RaiseCardFlipped(card.ID);
 
@@ -173,7 +181,7 @@ namespace CardMatch
         private async void CheckMatchAsync()
         {
             // Wait a moment so player can see both cards
-            await Task.Delay(500); // milliseconds
+            await Task.Delay(MATCH_CHECK_WAIT_DURATION); // milliseconds
             if (currentState is not PlayingState)
             {
                 return;

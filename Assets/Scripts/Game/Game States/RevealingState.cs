@@ -9,6 +9,8 @@ namespace CardMatch.GameState
     public class RevealingState : GameStateBase
     {
         private float revealTime;
+        //TODO: Move this to a config or difficulty settings/ GameData (Scriptable Object)
+        //OR [As per the requirement]
         private const float REVEAL_DURATION = 1f;
 
         public RevealingState(GameController controller, GameEvents events)
