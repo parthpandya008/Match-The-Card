@@ -6,6 +6,7 @@ using CardMatch.Factory;
 using CardMatch.GameEvent;
 using CardMatch.GameState;
 using CardMatch.Layout;
+using CardMatch.Score;
 using Unity.IO.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEditor.PackageManager;
@@ -31,12 +32,13 @@ namespace CardMatch
         private ISpriteProvider spriteProvider;
         private ObjectPoolManager objectPoolManager;
         private CardFactory cardFactory;
+        private ScoreManager scoreManager;
         #endregion
 
         #region Internal Systems
         // Internal systems
         private CardLayoutManager layoutManager;
-        private ICardAllocationStrategy allocationStrategy;
+        private ICardAllocationStrategy allocationStrategy;        
         #endregion
 
         #region Game Feilds
@@ -64,8 +66,11 @@ namespace CardMatch
         //TODO: Add this to a config or difficulty settings/ GameData (Scriptable Object)
         public float MisMatchPanelty => 1;
 
-        public void Initialize(GameEvents events, ISpriteProvider spriteProvider, 
-                    ObjectPoolManager objectPoolManager, CardFactoryConfig cardFactoryConfig)
+        public void Initialize(GameEvents events, 
+                                ISpriteProvider spriteProvider, 
+                                ObjectPoolManager objectPoolManager, 
+                                CardFactoryConfig cardFactoryConfig,
+                                ScoreManager scoreManager)
         {
             if(events == null || spriteProvider == null || 
                 objectPoolManager == null || cardFactoryConfig == null)
@@ -79,6 +84,8 @@ namespace CardMatch
             layoutManager = new CardLayoutManager(gamePanel);
             allocationStrategy = new RandomCardAllocationStrategy();
             cardFactory = new CardFactory(cardContainer,spriteProvider, objectPoolManager, cardFactoryConfig);
+            this.scoreManager = scoreManager;
+
             ChangeState(new IdleState(this, gameEvents));      
             Logger.Log("GameController initialized", this);
         }
@@ -148,7 +155,12 @@ namespace CardMatch
         public void SetCardMatchTimer(float elapsedTime)
         {
             cardMatchTimer = elapsedTime;
-        }       
+        }
+
+        private string GetCurrentGridSize()
+        {
+            return $"{currentRows}x{currentCols}";
+        }
 
         #endregion
 
@@ -220,12 +232,14 @@ namespace CardMatch
             isProcessingMatch = false;
         }       
         
-
         private void CheckGameWin()
         {
             if (remainingPairs == 0)
-            {                              
-                ChangeState(new CompletedState(this, gameEvents, cardMatchTimer));
+            {
+                string gridSize = GetCurrentGridSize();
+                bool isNewRecord = scoreManager.SaveBestTime(gridSize, Math.Round(cardMatchTimer, 4));
+
+                ChangeState(new CompletedState(this, gameEvents, cardMatchTimer, isNewRecord));                             
             }
         }
         #endregion

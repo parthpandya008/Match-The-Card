@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using CardMatch.GameEvent;
+using CardMatch.Score;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,16 +27,19 @@ namespace CardMatch.UI
         [SerializeField] private TextMeshProUGUI remainingPairsLabel;
         [SerializeField] private TextMeshProUGUI timeLabel;
         [SerializeField] private TextMeshProUGUI winLabel;
+        [SerializeField] private TextMeshProUGUI bestTimeText;
         [SerializeField] private TextMeshProUGUI resetButtonLabel;
         [SerializeField] private GameObject gameCompletePanel;        
         #endregion
 
         private GameEvents gameEvents;
+        private ScoreManager scoreManager;
         private int currentRows = 2;
         private int currentCols = 2;
-        public void Initialize(GameEvents events)
+        public void Initialize(GameEvents events, ScoreManager scoreManager)
         {
             gameEvents = events;
+            this.scoreManager = scoreManager;
             
             UpdateLabel();
             SubscribeToEvents();
@@ -110,9 +114,8 @@ namespace CardMatch.UI
         private void OnTimeUpdated(float time)
         {
             if (timeLabel != null)
-            {
-                time = Mathf.FloorToInt(time);
-                timeLabel.text = $"Time: {time}s";
+            {               
+                timeLabel.text = $"Time: {time:F2}s";
             }
         }
 
@@ -124,7 +127,7 @@ namespace CardMatch.UI
             OnTimeUpdated(0);
         }
 
-        private void OnGameCompleted(float completionTime)
+        private void OnGameCompleted(float completionTime, bool isNewRecord)
         {
             ShowGameCompleteUI(completionTime);
         }
@@ -132,9 +135,23 @@ namespace CardMatch.UI
         private void ShowGameCompleteUI(float completionTime)
         {
            gameCompletePanel?.SetActive(true);
+            OnTimeUpdated(completionTime);
             if(winLabel != null)
-                winLabel.text = $"You Win!\nTime: {completionTime:F2} s";            
-            if(resetButtonLabel != null)
+                winLabel.text = $"You Win!\nTime: {completionTime:F2}s";
+
+            // Best time comparison
+            string gridSize = $"{currentRows}x{currentCols}";
+            float bestTime = scoreManager?.GetBestTime(gridSize) ?? 0f;
+
+            if (bestTimeText != null)
+            {
+                if (bestTime > 0f)
+                    bestTimeText.text = $"Best ({gridSize}): {bestTime:F2}s";
+                else
+                    bestTimeText.text = "First time!";
+            }
+
+            if (resetButtonLabel != null)
                 resetButtonLabel.text = "Menu";
         }
 

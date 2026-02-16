@@ -49,7 +49,8 @@ namespace CardMatch.GameState
             controller?.SetCardMatchTimer(elapsedTime);
             
             if (elapsedTime >= nextTimeUpdate)
-            {                
+            {
+                elapsedTime = MathF.Round(elapsedTime, 4);
                 gameEvents.RaiseTimeUpdated(elapsedTime);
                 nextTimeUpdate = elapsedTime + TIME_UPDATE_INTERVAL;
             }                

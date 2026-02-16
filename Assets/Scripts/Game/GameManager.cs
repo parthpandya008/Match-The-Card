@@ -1,5 +1,6 @@
 using CardMatch.Factory;
 using CardMatch.GameEvent;
+using CardMatch.Score;
 using CardMatch.Services;
 using CardMatch.UI;
 using UnityEngine;
@@ -16,6 +17,8 @@ namespace CardMatch
 
         [Header("Services")]
         private SpriteProvider spriteProvider;
+        private GameEvents gameEvents;
+        private ScoreManager scoreManager;
         [SerializeField] private ObjectPoolManager objectPoolManager;
         // Shared event system
 
@@ -23,9 +26,7 @@ namespace CardMatch
         [SerializeField] private Sprite cardBackSprite;
         [SerializeField] private Sprite[] cardFaceSprites;
         [SerializeField] private CardFactoryConfig cardFactoryConfig;
-        #endregion
-
-        private GameEvents gameEvents;
+        #endregion        
 
         #region Unity Lifecycle
         private void Awake()
@@ -33,11 +34,12 @@ namespace CardMatch
             // Create event system
             gameEvents = new GameEvents();
             spriteProvider = new SpriteProvider(cardBackSprite, cardFaceSprites);
+            scoreManager = new ScoreManager();            
 
             // Initialize components (pass dependencies)
-            gameController.Initialize(gameEvents, spriteProvider, 
-                objectPoolManager, cardFactoryConfig);
-            uiManager.Initialize(gameEvents);
+            gameController.Initialize(gameEvents, spriteProvider, objectPoolManager, 
+                                       cardFactoryConfig, scoreManager);
+            uiManager.Initialize(gameEvents, scoreManager);
 
             Logger.Log("GameManager initialized", this);
         }
