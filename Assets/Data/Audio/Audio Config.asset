@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cfbd6cd465c5654bbbd9652b3345dc9, type: 3}
+  m_Name: Audio Config
+  m_EditorClassIdentifier: Assembly-CSharp::CardMatch.Audio.AudioConfig
+  cardClickData: {fileID: 11400000, guid: 9f5f05256fd335144b1ba8a6a86ece73, type: 2}
+  matchWinData: {fileID: 11400000, guid: 793cf403522622e4f8639ea8e12fa097, type: 2}
+  uiButtonClickData: {fileID: 11400000, guid: b1dc7ff713ad9ff4db5efdbec7c97a65, type: 2}
+  bgData: {fileID: 11400000, guid: ef99e667af151b64cad1feaf9c34d0de, type: 2}

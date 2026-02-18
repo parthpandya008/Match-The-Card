@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1db4e8b6cc210fd40a1261d251e7a4c5, type: 3}
-  m_Name: CardFactoryConfig
+  m_Name: CardFactoryConfigData
   m_EditorClassIdentifier: Assembly-CSharp::CardFactoryConfig
   cardTypeData:
   - cardType: 0

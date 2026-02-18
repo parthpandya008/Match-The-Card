@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a952941ca2a6454a8ecf503719afd66, type: 3}
+  m_Name: BG AudioData
+  m_EditorClassIdentifier: Assembly-CSharp::CardMatch.Audio.AudioData
+  clip: {fileID: 8300000, guid: fb91f4d47d5fde44bb5f1dbf4f12f6f2, type: 3}
+  category: 1
+  volume: 0.1
+  loop: 1

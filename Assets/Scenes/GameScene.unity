@@ -558,6 +558,7 @@ MonoBehaviour:
   - {fileID: -367829948, guid: a5ea8817e8353d140ad456e008e2c08d, type: 3}
   - {fileID: -1942156823, guid: abbff8607f1259d45b65a0185655a60b, type: 3}
   cardFactoryConfig: {fileID: 11400000, guid: 5dda943ef30b0574280873f253d6e4ae, type: 2}
+  audioConfig: {fileID: 11400000, guid: 1e40bedffd020d447b5919a5bcebae34, type: 2}
 --- !u!4 &658666820
 Transform:
   m_ObjectHideFlags: 0

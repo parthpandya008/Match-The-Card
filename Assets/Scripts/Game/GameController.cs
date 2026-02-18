@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CardMatch.Audio;
 using CardMatch.Factory;
 using CardMatch.GameEvent;
 using CardMatch.GameState;
@@ -33,6 +34,8 @@ namespace CardMatch
         private ObjectPoolManager objectPoolManager;
         private CardFactory cardFactory;
         private ScoreManager scoreManager;
+        private IAudioService audioService;
+        private AudioConfig audioConfig;
         #endregion
 
         #region Internal Systems
@@ -70,7 +73,9 @@ namespace CardMatch
                                 ISpriteProvider spriteProvider, 
                                 ObjectPoolManager objectPoolManager, 
                                 CardFactoryConfig cardFactoryConfig,
-                                ScoreManager scoreManager)
+                                ScoreManager scoreManager,
+                                IAudioService audioService,
+                                AudioConfig audioConfig)
         {
             if(events == null || spriteProvider == null || 
                 objectPoolManager == null || cardFactoryConfig == null)
@@ -85,7 +90,8 @@ namespace CardMatch
             allocationStrategy = new RandomCardAllocationStrategy();
             cardFactory = new CardFactory(cardContainer,spriteProvider, objectPoolManager, cardFactoryConfig);
             this.scoreManager = scoreManager;
-
+            this.audioService = audioService;
+            this.audioConfig = audioConfig;
             ChangeState(new IdleState(this, gameEvents));      
             Logger.Log("GameController initialized", this);
         }
@@ -149,7 +155,7 @@ namespace CardMatch
                 return;
             }                                
 
-            ProcessCardSelection(card);            
+             ProcessCardSelection(card);            
         }
 
         public void SetCardMatchTimer(float elapsedTime)
@@ -165,11 +171,11 @@ namespace CardMatch
         #endregion
 
         #region Match Logic
-        private async Task ProcessCardSelection(ICard card)
+        private void  ProcessCardSelection(ICard card)
         {
             card.Flip(!card.IsFlipped);
             gameEvents.RaiseCardFlipped(card.ID);
-
+            audioService?.Play(audioConfig?.CardClickData);
             // Track selection
             if (firstSelectedCardId == -1)
             {
@@ -238,7 +244,7 @@ namespace CardMatch
             {
                 string gridSize = GetCurrentGridSize();
                 bool isNewRecord = scoreManager.SaveBestTime(gridSize, Math.Round(cardMatchTimer, 4));
-
+                audioService?.Play(audioConfig?.MatchWinData);
                 ChangeState(new CompletedState(this, gameEvents, cardMatchTimer, isNewRecord));                             
             }
         }

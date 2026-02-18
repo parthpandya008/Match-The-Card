@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using CardMatch.Audio;
 using CardMatch.GameEvent;
 using CardMatch.Score;
 using TMPro;
@@ -29,18 +30,23 @@ namespace CardMatch.UI
         [SerializeField] private TextMeshProUGUI winLabel;
         [SerializeField] private TextMeshProUGUI bestTimeText;
         [SerializeField] private TextMeshProUGUI resetButtonLabel;
-        [SerializeField] private GameObject gameCompletePanel;        
+        [SerializeField] private GameObject gameCompletePanel;
         #endregion
 
+        // Injected dependencies
         private GameEvents gameEvents;
         private ScoreManager scoreManager;
+        private IAudioService audioService;
+        private AudioConfig audioConfig;
         private int currentRows = 2;
         private int currentCols = 2;
-        public void Initialize(GameEvents events, ScoreManager scoreManager)
+        public void Initialize(GameEvents events, ScoreManager scoreManager, 
+                                    IAudioService audioService, AudioConfig audioConfig)
         {
             gameEvents = events;
             this.scoreManager = scoreManager;
-            
+            this.audioService = audioService;
+            this.audioConfig = audioConfig;
             UpdateLabel();
             SubscribeToEvents();
             Logger.Log("UIManager initialized", this);
