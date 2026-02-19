@@ -7,10 +7,10 @@ namespace CardMatch.Score
     [Serializable]
     public class GridBestScores 
     {
-        public string gridSize;              // "2x2", "4x4", etc.
+        public string GridSize;              // "2x2", "4x4", etc.
         //Double storage gives clean serialization
-        public double bestTime = double.MaxValue;        
+        public double BestTime = double.MaxValue;        
 
-        public bool HasBestTime => bestTime != float.MaxValue;
+        public bool HasBestTime => BestTime != float.MaxValue;
     }
 }

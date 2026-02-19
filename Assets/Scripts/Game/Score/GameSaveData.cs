@@ -8,20 +8,20 @@ namespace CardMatch.Score
     [Serializable]
     public class GameSaveData
     {
-        public int version = 1;
-        public List<GridBestScores> gridScores = new List<GridBestScores>();
+        public int Version = 1;
+        public List<GridBestScores> GridScores = new List<GridBestScores>();
 
         public GridBestScores GetOrCreateGrid(string gridSize)
         {
-            var existing = gridScores.Find(grid => grid.gridSize.Equals(gridSize));
+            var existing = GridScores.Find(grid => grid.GridSize.Equals(gridSize));
 
             if (existing == null)
             {
                 existing =  new GridBestScores 
                 { 
-                    gridSize = gridSize 
+                    GridSize = gridSize 
                 };
-                gridScores.Add(existing);
+                GridScores.Add(existing);
             }
 
             return existing;
@@ -29,7 +29,7 @@ namespace CardMatch.Score
 
         public GridBestScores GetGridBestScores(string gridSize)
         {
-            return gridScores.Find(g => g.gridSize.Equals(gridSize));
+            return GridScores.Find(g => g.GridSize.Equals(gridSize));
         }
     }
 }

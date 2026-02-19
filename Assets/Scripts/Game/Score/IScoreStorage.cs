@@ -9,7 +9,6 @@ namespace CardMatch.Score
         GameSaveData Load();
         bool HasSaveFile();
         void Delete();
-
         string FilePath { get; }
     }
 }

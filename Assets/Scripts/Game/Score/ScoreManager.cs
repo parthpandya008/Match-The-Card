@@ -22,9 +22,9 @@ namespace CardMatch.Score
             var gridScores = saveData.GetOrCreateGrid(gridSize);
 
             // Only save if it's a new best
-            if (completionTime < gridScores.bestTime)
+            if (completionTime < gridScores.BestTime)
             {
-                gridScores.bestTime = completionTime;
+                gridScores.BestTime = completionTime;
                 SaveData();
                 Logger.Log($"New best time for {gridSize}: {completionTime:F2}s");
                 return true;
@@ -39,7 +39,7 @@ namespace CardMatch.Score
 
             if (gridScores != null && gridScores.HasBestTime)
             {
-                return (float)gridScores.bestTime;
+                return (float)gridScores.BestTime;
             }
 
             return 0f;
