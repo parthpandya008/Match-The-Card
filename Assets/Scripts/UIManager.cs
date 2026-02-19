@@ -133,7 +133,7 @@ namespace CardMatch.UI
             OnTimeUpdated(0);
         }
 
-        private void OnGameCompleted(float completionTime, bool isNewRecord)
+        private void OnGameCompleted(float completionTime)
         {
             ShowGameCompleteUI(completionTime);
         }

@@ -13,8 +13,8 @@ namespace CardMatch.GameState
         public override void Enter()
         {
             Logger.Log("STATE: InitializingState");
-            gameController.InitializeCards();
-            gameController.ChangeState(new RevealingState(gameController, gameEvents));
+            gameController?.InitializeCards();
+            gameController?.ChangeState(gameController?.RevealState);            
         }
     }
 }

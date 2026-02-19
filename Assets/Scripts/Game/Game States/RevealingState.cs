@@ -21,7 +21,7 @@ namespace CardMatch.GameState
             Logger.Log("Game State: Revealing");
             revealTime = 0f;
             gameEvents.RaiseGameStarted();
-            gameController.FlipAllCards(true);
+            gameController?.FlipAllCards(true);
         }
 
         public override void Update(float deltaTime)
@@ -30,8 +30,8 @@ namespace CardMatch.GameState
 
             if (revealTime >= REVEAL_DURATION)
             {
-                gameController.FlipAllCards(false);
-                gameController.ChangeState(new PlayingState(gameController, gameEvents));
+                gameController?.FlipAllCards(false);
+                gameController?.ChangeState(gameController?.PlayState);
             }
         }
     }

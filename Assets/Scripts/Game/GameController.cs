@@ -8,13 +8,8 @@ using CardMatch.GameEvent;
 using CardMatch.GameState;
 using CardMatch.Layout;
 using CardMatch.Score;
-using Unity.IO.LowLevel.Unsafe;
-using Unity.VisualScripting;
-using UnityEditor.PackageManager;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.Rendering.GPUSort;
-using static UnityEngine.Rendering.STP;
+
 
 namespace CardMatch
 {
@@ -46,8 +41,7 @@ namespace CardMatch
 
         #region Game Feilds
         // Game state
-        private List<ICard> cards = new List<ICard>();
-        private IGameState currentState;       
+        private List<ICard> cards = new List<ICard>();             
         private int currentRows;
         private int currentCols;
         #endregion
@@ -63,6 +57,18 @@ namespace CardMatch
         //TODO:Add MATCH_CHECK_WAIT_DURATION into a config or difficulty settings/ GameData(Scriptable Object)
         //Or as per the game requirement
         private const int MATCH_CHECK_WAIT_DURATION = 1000; // milliseconds
+        #endregion
+
+        #region  States
+        private IGameState idleState;
+        private IGameState initializingState;
+        private IGameState revealingState;
+        private IGameState playingState;
+        private IGameState completedState;       
+        private IGameState currentState;
+
+        public IGameState PlayState => playingState;
+        public IGameState RevealState => revealingState;
         #endregion
 
         public float CardMatchTimer => cardMatchTimer;
@@ -92,7 +98,10 @@ namespace CardMatch
             this.scoreManager = scoreManager;
             this.audioService = audioService;
             this.audioConfig = audioConfig;
-            ChangeState(new IdleState(this, gameEvents));      
+
+            InitializeStates();
+            ChangeState(idleState);      
+            
             Logger.Log("GameController initialized", this);
         }
 
@@ -243,9 +252,9 @@ namespace CardMatch
             if (remainingPairs == 0)
             {
                 string gridSize = GetCurrentGridSize();
-                bool isNewRecord = scoreManager.SaveBestTime(gridSize, Math.Round(cardMatchTimer, 4));
+                scoreManager.SaveBestTime(gridSize, Math.Round(cardMatchTimer, 4));
                 audioService?.Play(audioConfig?.MatchWinData);
-                ChangeState(new CompletedState(this, gameEvents, cardMatchTimer, isNewRecord));                             
+                ChangeState(completedState);                             
             }
         }
         #endregion
@@ -255,7 +264,7 @@ namespace CardMatch
         {
             currentRows = rows;
             currentCols = cols;
-            ChangeState(new InitializingState(this, gameEvents));
+            ChangeState(initializingState);
         }
 
         //Reset the card and math fields
@@ -268,15 +277,26 @@ namespace CardMatch
                 cards[i].Reset();
                 cards[i].OnCardClicked -= OnCardClicked;
             }
-            cards.Clear();
-            cardFactory.DestroyAllCards();
+            cards.Clear();           
             remainingPairs = -1;
             firstSelectedCardId = -1;
             secondSelectedCardId = -1;
             isProcessingMatch = false;
-            ChangeState(new IdleState(this, gameEvents));
+            ChangeState(idleState);
 
             gameEvents.RaiseGameReset();
+        }
+        #endregion
+
+        #region Game  - States
+
+        private void InitializeStates()
+        {
+            idleState = new IdleState(this, gameEvents);
+            initializingState = new InitializingState(this, gameEvents);
+            revealingState = new RevealingState(this, gameEvents);
+            playingState = new PlayingState(this, gameEvents);
+            completedState = new CompletedState(this, gameEvents);
         }
 
         public void ChangeState(IGameState newState)
@@ -284,7 +304,7 @@ namespace CardMatch
             currentState?.Exit();
             currentState = newState;
             currentState.Enter();
-        }     
+        }           
         #endregion
     }
 }

@@ -16,11 +16,7 @@ namespace CardMatch.GameState
         public PlayingState(GameController controller, GameEvents events) : 
             base(controller, events)    
         {
-            this.controller = controller;
-            if(gameEvents != null)
-            {
-                gameEvents.OnCardsMismatched += OnCardsMismatched;
-            }
+            this.controller = controller;           
         }
 
         private void OnCardsMismatched(int arg1, int arg2)
@@ -28,19 +24,24 @@ namespace CardMatch.GameState
             elapsedTime += controller != null ? controller.MisMatchPanelty : 1; // Add penalty time for mismatch
             controller?.SetCardMatchTimer(elapsedTime);
         }
-
-        ~PlayingState()
-        {
-            if (gameEvents != null)
-            {
-                gameEvents.OnCardsMismatched -= OnCardsMismatched;
-            }
-        }
+       
         public override void Enter()
         {
             Logger.Log("STATE: Playing");
             elapsedTime = 0;
             controller?.SetCardMatchTimer(elapsedTime);
+            if (gameEvents != null)
+            {
+                gameEvents.OnCardsMismatched += OnCardsMismatched;
+            }
+        }
+
+        public override void Exit()
+        {
+            if (gameEvents != null)
+            {
+                gameEvents.OnCardsMismatched += OnCardsMismatched;
+            }
         }
 
         public override void Update(float deltaTime)
@@ -51,7 +52,7 @@ namespace CardMatch.GameState
             if (elapsedTime >= nextTimeUpdate)
             {
                 elapsedTime = MathF.Round(elapsedTime, 4);
-                gameEvents.RaiseTimeUpdated(elapsedTime);
+                gameEvents?.RaiseTimeUpdated(elapsedTime);
                 nextTimeUpdate = elapsedTime + TIME_UPDATE_INTERVAL;
             }                
         }
