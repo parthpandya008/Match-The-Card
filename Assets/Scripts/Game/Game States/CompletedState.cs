@@ -13,7 +13,7 @@ namespace CardMatch.GameState
 
         public override void Enter()
         {
-            if(gameController == null)
+            if(gameController != null)
             {
                 float completionTime = gameController.CardMatchTimer;
                 Logger.Log($"STATE: Completed in {completionTime}s ");
