@@ -11,25 +11,23 @@ namespace CardMatch.GameState
         private const float TIME_UPDATE_INTERVAL = 1f;
         private float elapsedTime = 0f;
         private float nextTimeUpdate = 0f;
-        private GameController controller;
+        
         
         public PlayingState(GameController controller, GameEvents events) : 
-            base(controller, events)    
-        {
-            this.controller = controller;           
-        }
+            base(controller, events) {  }
 
         private void OnCardsMismatched(int arg1, int arg2)
         {
-            elapsedTime += controller != null ? controller.MisMatchPanelty : 1; // Add penalty time for mismatch
-            controller?.SetCardMatchTimer(elapsedTime);
+            elapsedTime += gameController != null ? gameController.MisMatchPanelty : 1; // Add penalty time for mismatch
+            gameController?.SetCardMatchTimer(elapsedTime);
         }
        
         public override void Enter()
         {
             Logger.Log("STATE: Playing");
             elapsedTime = 0;
-            controller?.SetCardMatchTimer(elapsedTime);
+            nextTimeUpdate = 0f;
+            gameController?.SetCardMatchTimer(elapsedTime);
             if (gameEvents != null)
             {
                 gameEvents.OnCardsMismatched += OnCardsMismatched;
@@ -41,17 +39,17 @@ namespace CardMatch.GameState
             if (gameEvents != null)
             {
                 gameEvents.OnCardsMismatched += OnCardsMismatched;
-            }
+            }           
         }
 
         public override void Update(float deltaTime)
         {           
             elapsedTime += deltaTime;
-            controller?.SetCardMatchTimer(elapsedTime);
+            gameController?.SetCardMatchTimer(elapsedTime);
             
             if (elapsedTime >= nextTimeUpdate)
             {
-                elapsedTime = MathF.Round(elapsedTime, 4);
+                elapsedTime = MathF.Round(elapsedTime, 1);
                 gameEvents?.RaiseTimeUpdated(elapsedTime);
                 nextTimeUpdate = elapsedTime + TIME_UPDATE_INTERVAL;
             }                

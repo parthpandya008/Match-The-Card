@@ -121,7 +121,7 @@ namespace CardMatch.UI
         {
             if (timeLabel != null)
             {               
-                timeLabel.text = $"Time: {time:F2}s";
+                timeLabel.text = $"Time: {(int)time}s";
             }
         }
 
@@ -143,7 +143,7 @@ namespace CardMatch.UI
            gameCompletePanel?.SetActive(true);
             OnTimeUpdated(completionTime);
             if(winLabel != null)
-                winLabel.text = $"You Win!\nTime: {completionTime:F2}s";
+                winLabel.text = $"You Win!\nTime: {(int)completionTime}s";
 
             // Best time comparison
             string gridSize = $"{currentRows}x{currentCols}";
@@ -152,7 +152,7 @@ namespace CardMatch.UI
             if (bestTimeText != null)
             {
                 if (bestTime > 0f)
-                    bestTimeText.text = $"Best ({gridSize}): {bestTime:F2}s";
+                    bestTimeText.text = $"Best ({gridSize}): {(int)bestTime}s";
                 else
                     bestTimeText.text = "First time!";
             }
