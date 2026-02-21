@@ -8,10 +8,15 @@ namespace CardMatch.Services
     {
         [SerializeField] private Sprite cardBackSprite;
         [SerializeField] private Sprite[] cardFaceSprites;
-        public SpriteProvider(Sprite cardBackSprite, Sprite[] cardFaceSprites)
+        public SpriteProvider(CardDeckConfig cardDeckConfig)
         {
-            this.cardBackSprite = cardBackSprite;
-            this.cardFaceSprites = cardFaceSprites;
+            if(cardDeckConfig == null)
+            {
+                Logger.LogError("SpriteProvider initialization failed: CardDeckConfig is null");
+                return;
+            }
+            cardBackSprite = cardDeckConfig.Back;
+            cardFaceSprites = cardDeckConfig.Faces;
         }
 
         #region Sprite Access

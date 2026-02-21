@@ -26,7 +26,7 @@ namespace CardMatch
         // Injected dependencies
         private GameEvents gameEvents;
         private ISpriteProvider spriteProvider;
-        private ObjectPoolManager objectPoolManager;
+        
         private CardFactory cardFactory;
         private ScoreManager scoreManager;
         private IAudioService audioService;
@@ -90,8 +90,7 @@ namespace CardMatch
                 return;
             }
             gameEvents = events;
-            this.spriteProvider = spriteProvider;
-            this.objectPoolManager = objectPoolManager;
+            this.spriteProvider = spriteProvider;            
             layoutManager = new CardLayoutManager(gamePanel);
             allocationStrategy = new RandomCardAllocationStrategy();
             cardFactory = new CardFactory(cardContainer,spriteProvider, objectPoolManager, cardFactoryConfig);

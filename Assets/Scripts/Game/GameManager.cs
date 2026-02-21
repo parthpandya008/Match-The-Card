@@ -21,12 +21,10 @@ namespace CardMatch
         private GameEvents gameEvents;
         private ScoreManager scoreManager;
         private IAudioService audioService;
-        [SerializeField] private ObjectPoolManager objectPoolManager;
-        // Shared event system
+        [SerializeField] private ObjectPoolManager objectPoolManager;        
 
-        [Header("Scene References")]
-        [SerializeField] private Sprite cardBackSprite;
-        [SerializeField] private Sprite[] cardFaceSprites;
+        [Header("Config Scene References")]        
+        [SerializeField] private CardDeckConfig cardDeckConfig;
         [SerializeField] private CardFactoryConfig cardFactoryConfig;
         [SerializeField] private AudioConfig audioConfig;
         #endregion        
@@ -36,7 +34,7 @@ namespace CardMatch
         {
             // Create event system
             gameEvents = new GameEvents();
-            spriteProvider = new SpriteProvider(cardBackSprite, cardFaceSprites);
+            spriteProvider = new SpriteProvider(cardDeckConfig);
             scoreManager = new ScoreManager();
             audioService = new AudioService();
             
