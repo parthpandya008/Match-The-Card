@@ -14,12 +14,10 @@ namespace CardMatch.Layout
 
         #region Layout Calculation
         // Calculate grid layout for cards (rectangular grid)
-        // Supports any rows x cols combination (2x3, 5x6, etc.)        
+        // Supports any rows x cols combination (2x3, 5x6, etc.)               
         public CardLayoutData CalculateLayout(int rows, int cols)
         {
             int totalCards = rows * cols;
-
-            // Check if total is odd (need to remove one card for pairing)
             bool isOdd = totalCards % 2 == 1;
             if (isOdd)
             {
@@ -28,28 +26,25 @@ namespace CardMatch.Layout
 
             Vector2 panelSize = panelTransform.sizeDelta;
 
-            // Calculate cell dimensions based on panel size
             float cellWidth = panelSize.x / cols;
             float cellHeight = panelSize.y / rows;
 
-            // Calculate scale - use smaller dimension to keep cards proportional
-            float scaleX = 1.0f / cols;
-            float scaleY = 1.0f / rows;
-            float cellScale = Mathf.Min(scaleX, scaleY);
-
-            // Calculate starting position (centered grid)
-            float startX = -cellWidth * (cols / 2.0f);
-            float startY = -cellHeight * (rows / 2.0f);
-                                                 
-            startX += cellWidth / 2;                                    
-            startY += cellHeight / 2;
+            // Scale each axis independently to fill the panel correctly
+            float scaleX = cellWidth / panelSize.x;  
+            float scaleY = cellHeight / panelSize.y; 
             
+            // Calculate starting position
+            float startX = -cellWidth * (cols / 2.0f);
+            float startY = -cellHeight * (rows / 2.0f);           
+            startX += cellWidth / 2;
+            startY += cellHeight / 2;
+
             return new CardLayoutData
             {
                 TotalCards = totalCards,
                 Rows = rows,
                 Cols = cols,
-                CellScale = cellScale,
+                CellScale = new Vector2(scaleX, scaleY),                
                 CellWidth = cellWidth,
                 CellHeight = cellHeight,
                 StartX = startX,
@@ -57,22 +52,36 @@ namespace CardMatch.Layout
                 IsOdd = isOdd
             };
         }
+
         #endregion
 
         #region Position Queries
+        
         // Get position for a specific card index        
         public Vector3 GetCardPosition(CardLayoutData layout, int index)
         {
-            int row = index / layout.Cols;
-            int col = index % layout.Cols;
+            // If grid is odd, swap center card to last slot
+            if (layout.IsOdd)
+            {
+               int centerIndex = layout.Rows * layout.Cols / 2; // Middle index for odd card count
+               int lastIndex = layout.TotalCards;
 
-            float x = layout.StartX + col * layout.CellWidth;
-            float y = layout.StartY + row * layout.CellHeight;
+                if(index == centerIndex)
+                {
+                    index = lastIndex; // Place the odd card in the center
+                }
+            }
 
-            return new Vector3(x, y, 0);
+           int row = index/ layout.Cols;
+           int col = index % layout.Cols;
+
+           float x = layout.StartX + col * layout.CellWidth;
+           float y = layout.StartY + row * layout.CellHeight;
+
+           return new Vector3(x, y, 0);
         }
+          
         #endregion
-
     }
 
     public class CardLayoutData
@@ -82,7 +91,7 @@ namespace CardMatch.Layout
         public int Cols;
         public float CellWidth;
         public float CellHeight;
-        public float CellScale;
+        public Vector2 CellScale;        
         public float StartX;
         public float StartY;
         public bool IsOdd;

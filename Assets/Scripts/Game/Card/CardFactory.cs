@@ -55,11 +55,22 @@ namespace CardMatch.Factory
                 return null;
             }
 
+            return CreateCard(data, cardId, position, new Vector2(scale,scale));
+        }
+
+        public ICard CreateCard(CardType cardType, int cardId, Vector3 position, Vector2 scale)
+        {
+            if (!cardTypeData.TryGetValue(cardType, out var data))
+            {
+                Logger.LogError($"No configuration for card type: {cardType}");
+                return null;
+            }
+
             return CreateCard(data, cardId, position, scale);
         }
 
         //Internal creation method
-        private ICard CreateCard(CardFactoryConfig.CardTypeData data, int cardId, Vector3 position, float scale)
+        private ICard CreateCard(CardFactoryConfig.CardTypeData data, int cardId, Vector3 position, Vector2 scale)
         {
             GameObject cardObject = objectPoolManager?.Spawn(data.Prefab);
 
@@ -86,7 +97,7 @@ namespace CardMatch.Factory
             // Set transform properties
             cardObject.transform.SetParent(parentTransform);
             cardObject.transform.localPosition = position;
-            cardObject.transform.localScale = new Vector3(scale, scale, 1f);
+            cardObject.transform.localScale = new Vector3(scale.x, scale.y, 1f);
 
             // Initialize with dependencies
             card.Initialize(spriteProvider);
