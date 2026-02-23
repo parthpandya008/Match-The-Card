@@ -29,12 +29,17 @@ namespace CardMatch
         [SerializeField] private CardDeckConfig cardDeckConfig;
         [SerializeField] private CardFactoryConfig cardFactoryConfig;
         [SerializeField] private AudioConfig audioConfig;
+
+        [Header("Gameplay Panel References")]
+        [SerializeField] private RectTransform gamePanel;
+        [SerializeField] private RectTransform cardContainer;
         #endregion        
 
         #region Unity Lifecycle
         private void Awake()
         {
             // Create event system
+            
             gameEvents = new GameEvents();
             uiEvents = new UIEvents();
             spriteProvider = new SpriteProvider(cardDeckConfig);
@@ -42,9 +47,11 @@ namespace CardMatch
             audioService = new AudioService();
             
             // Initialize components (pass dependencies)
-            gameController.Initialize(gameEvents, spriteProvider, objectPoolManager, 
-                                       cardFactoryConfig, scoreManager, 
-                                       audioService, audioConfig);
+            gameController = new GameController(gameEvents, spriteProvider, objectPoolManager, 
+                                                cardFactoryConfig, scoreManager, 
+                                                audioService, audioConfig,
+                                                gamePanel, cardContainer);
+
             uiManager.Initialize(gameEvents, uiEvents, scoreManager, 
                                     audioService, audioConfig);
 
@@ -57,6 +64,10 @@ namespace CardMatch
             Logger.Log("GameManager initialized", this);
         }
 
+        private void Update()
+        {
+            gameController?.GameUpdate(Time.deltaTime);
+        }
         private void OnDestroy()
         {
             // Unsubscribe from UI events

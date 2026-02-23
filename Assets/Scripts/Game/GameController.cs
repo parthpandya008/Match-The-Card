@@ -14,14 +14,8 @@ using UnityEngine;
 namespace CardMatch
 {
     // Game controller - handles all game logic and flow
-    public class GameController : MonoBehaviour
-    {
-        #region Inspector References
-        [Header("Scene References")]               
-        [SerializeField] private RectTransform gamePanel;
-        [SerializeField] private RectTransform cardContainer;
-        #endregion
-
+    public class GameController 
+    {        
         #region Dependencies
         // Injected dependencies
         private GameEvents gameEvents;
@@ -75,13 +69,15 @@ namespace CardMatch
         //TODO: Add this to a config or difficulty settings/ GameData (Scriptable Object)
         public float MisMatchPanelty => 1;
 
-        public void Initialize(GameEvents events, 
+        public GameController(GameEvents events, 
                                 ISpriteProvider spriteProvider, 
                                 ObjectPoolManager objectPoolManager, 
                                 CardFactoryConfig cardFactoryConfig,
                                 ScoreManager scoreManager,
                                 IAudioService audioService,
-                                AudioConfig audioConfig)
+                                AudioConfig audioConfig,
+                                RectTransform gamePanel,
+                                RectTransform cardContainer)
         {
             if(events == null || spriteProvider == null || 
                 objectPoolManager == null || cardFactoryConfig == null)
@@ -96,17 +92,17 @@ namespace CardMatch
             cardFactory = new CardFactory(cardContainer,spriteProvider, objectPoolManager, cardFactoryConfig);
             this.scoreManager = scoreManager;
             this.audioService = audioService;
-            this.audioConfig = audioConfig;
+            this.audioConfig = audioConfig;            
 
             InitializeStates();
             ChangeState(idleState);      
             
-            Logger.Log("GameController initialized", this);
+            Logger.Log("GameController initialized");
         }
 
-        private void Update()
+        public void GameUpdate(float deltaTime)
         {
-            currentState?.Update(Time.deltaTime);
+            currentState?.Update(deltaTime);
         }   
 
         #region Card Setup + Interaction
@@ -140,7 +136,7 @@ namespace CardMatch
             // Allocate sprites to cards
             allocationStrategy.AllocateSprites(cards.ToArray(), spriteProvider.AvailableSpritesCount);
 
-            Logger.Log($"Setup {cards.Count} cards", this);
+            Logger.Log($"Setup {cards.Count} cards");
             gameEvents.RaiseGameStarted();
             gameEvents.RaiseRemainingCardsChanged(remainingPairs);
         }

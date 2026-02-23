@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1487074859772487221}
   - component: {fileID: 6308209988122195112}
-  - component: {fileID: 6558153966204468626}
   - component: {fileID: 3239518715823212889}
   m_Layer: 0
   m_Name: GameManager
@@ -47,23 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardMatch.GameManager
   uiManager: {fileID: 0}
-  gameController: {fileID: 6558153966204468626}
   objectPoolManager: {fileID: 3239518715823212889}
   cardDeckConfig: {fileID: 11400000, guid: 215c3cf81fb77d547812d82b7c7d7da3, type: 2}
   cardFactoryConfig: {fileID: 11400000, guid: 5dda943ef30b0574280873f253d6e4ae, type: 2}
   audioConfig: {fileID: 11400000, guid: 1e40bedffd020d447b5919a5bcebae34, type: 2}
---- !u!114 &6558153966204468626
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1463701882721482665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd4d379e328b87944bcc34427696dfb8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CardMatch.GameController
   gamePanel: {fileID: 0}
   cardContainer: {fileID: 0}
 --- !u!114 &3239518715823212889
