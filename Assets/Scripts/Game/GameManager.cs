@@ -4,6 +4,7 @@ using CardMatch.GameEvent;
 using CardMatch.Score;
 using CardMatch.Services;
 using CardMatch.UI;
+using CardMatch.UI.Events;
 using UnityEngine;
 
 namespace CardMatch
@@ -19,6 +20,7 @@ namespace CardMatch
         [Header("Services")]
         private SpriteProvider spriteProvider;
         private GameEvents gameEvents;
+        private UIEvents uiEvents;
         private ScoreManager scoreManager;
         private IAudioService audioService;
         [SerializeField] private ObjectPoolManager objectPoolManager;        
@@ -34,6 +36,7 @@ namespace CardMatch
         {
             // Create event system
             gameEvents = new GameEvents();
+            uiEvents = new UIEvents();
             spriteProvider = new SpriteProvider(cardDeckConfig);
             scoreManager = new ScoreManager();
             audioService = new AudioService();
@@ -42,28 +45,38 @@ namespace CardMatch
             gameController.Initialize(gameEvents, spriteProvider, objectPoolManager, 
                                        cardFactoryConfig, scoreManager, 
                                        audioService, audioConfig);
-            uiManager.Initialize(gameEvents, scoreManager, 
+            uiManager.Initialize(gameEvents, uiEvents, scoreManager, 
                                     audioService, audioConfig);
 
             audioService.Play(audioConfig?.GameBGData);
+
+            // Subscribe to UI requests
+            uiEvents.OnStartButtonClicked += StartGame;
+            uiEvents.OnStopButtonClicked += StopGame;
+
             Logger.Log("GameManager initialized", this);
-        } 
+        }
+
+        private void OnDestroy()
+        {
+            // Unsubscribe from UI events
+            uiEvents.OnStartButtonClicked -= StartGame;
+            uiEvents.OnStopButtonClicked -= StopGame;
+        }
         #endregion
 
         #region Game Callbacks 
         // Called from Start button
-        public void StartGame()
-        {
-            audioService?.Play(audioConfig?.UIButtonClickData);
+        private void StartGame()
+        {                      
             var (rows, cols) = uiManager.GetGridSize();
             Logger.Log($"Starting game: {rows}x{cols}", this);
             gameController.StartGame(rows, cols);
         }
 
         // Called from Stop/Menu button
-        public void StopGame()
-        {
-            audioService?.Play(audioConfig?.UIButtonClickData);
+        private void StopGame()
+        {            
             gameController.ResetGame();
         }
         #endregion

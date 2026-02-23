@@ -59,6 +59,7 @@ namespace CardMatch
                 color.a = 1f;
                 image.color = color;
             }
+            isAnimating = false;
         }
         #endregion
 
