@@ -1,11 +1,14 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CardDeckConfig", menuName = "Card Match/Card Deck Config")]
-public class CardDeckConfig : ScriptableObject
+namespace CardMatch.Game.Cards
 {
-    [SerializeField] private Sprite cardBackSprite;
-    [SerializeField] private Sprite[] cardFaceSprites;
+    [CreateAssetMenu(fileName = "CardDeckConfig", menuName = "Card Match/Card Deck Config")]
+    public class CardDeckConfig : ScriptableObject
+    {
+        [SerializeField] private Sprite cardBackSprite;
+        [SerializeField] private Sprite[] cardFaceSprites;
 
-    public Sprite Back => cardBackSprite;
-    public Sprite[] Faces => cardFaceSprites;
+        public Sprite Back => cardBackSprite;
+        public Sprite[] Faces => cardFaceSprites;
+    }
 }

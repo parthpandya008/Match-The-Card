@@ -1,9 +1,7 @@
 using System;
-using CardMatch.GameEvent;
-using CardMatch.GameState;
-using UnityEngine;
+using CardMatch.Game.Events;
 
-namespace CardMatch.GameState
+namespace CardMatch.Game.State
 {
     // Playing state - main gameplay
     public class PlayingState : GameStateBase

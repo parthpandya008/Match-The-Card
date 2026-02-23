@@ -1,7 +1,7 @@
 using CardMatch;
 using UnityEngine;
 
-namespace CardMatch.Services
+namespace CardMatch.Game.Cards
 {
     /// Service responsible for providing card sprites
     public class SpriteProvider : ISpriteProvider

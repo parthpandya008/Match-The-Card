@@ -1,8 +1,7 @@
 using System;
-using CardMatch.Factory;
-using UnityEngine;
+using CardMatch.Game.Cards.Factory;
 
-namespace CardMatch
+namespace CardMatch.Game.Cards
 {
     /// Interface for any clickable card implementation
     public interface ICard

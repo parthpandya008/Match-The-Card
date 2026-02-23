@@ -1,9 +1,9 @@
 using System;
-using CardMatch.Factory;
+using CardMatch.Game.Cards.Factory;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CardMatch
+namespace CardMatch.Game.Cards
 {
     // Card controller - manages card state and coordinates with view
     public class Card : MonoBehaviour, ICard, ICardInitializer

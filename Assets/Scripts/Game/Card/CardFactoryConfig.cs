@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CardMatch.Factory
+namespace CardMatch.Game.Cards.Factory
 {
     [CreateAssetMenu(fileName = "CardFactoryConfig", menuName = "Card Match/Card Factory Config")]
     public class CardFactoryConfig : ScriptableObject

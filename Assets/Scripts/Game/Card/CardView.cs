@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CardMatch
+namespace CardMatch.Game.Cards
 {
     // Handles visual representation and animations of a card
     public class CardView : MonoBehaviour

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace CardMatch.GameEvent
+namespace CardMatch.Game.Events
 {
     /// Centralized event system using Observer pattern
     public class GameEvents

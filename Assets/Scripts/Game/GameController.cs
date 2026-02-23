@@ -1,17 +1,16 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CardMatch.Audio;
-using CardMatch.Factory;
-using CardMatch.GameEvent;
-using CardMatch.GameState;
-using CardMatch.Layout;
+using CardMatch.Game.Cards;
+using CardMatch.Game.Cards.Factory;
+using CardMatch.Game.Events;
+using CardMatch.Game.State;
 using CardMatch.Score;
 using UnityEngine;
 
 
-namespace CardMatch
+namespace CardMatch.Game
 {
     // Game controller - handles all game logic and flow
     public class GameController 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CardMatch
+namespace CardMatch.Game.Cards
 {
     /// Strategy interface for card allocation algorithms
     public interface ICardAllocationStrategy

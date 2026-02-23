@@ -1,9 +1,6 @@
-using CardMatch.GameEvent;
-using CardMatch.GameState;
-using CardMatch;
-using UnityEngine;
+using CardMatch.Game.Events;
 
-namespace CardMatch.GameState
+namespace CardMatch.Game.State
 {
     //Revealing state - showing cards briefly at start
     public class RevealingState : GameStateBase

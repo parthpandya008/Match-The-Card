@@ -1,8 +1,6 @@
-using CardMatch.GameEvent;
-using CardMatch;
-using UnityEngine;
+using CardMatch.Game.Events;
 
-namespace CardMatch.GameState
+namespace CardMatch.Game.State
 {
     // Initialization state - setting up cards
     public class InitializingState : GameStateBase

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CardMatch
+namespace CardMatch.Game.Cards
 {
     /* 
      * Randomly allocates sprite pairs to cards 

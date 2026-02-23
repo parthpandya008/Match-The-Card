@@ -1,8 +1,6 @@
-using CardMatch.GameState;
-using UnityEngine;
-using CardMatch.GameEvent;
+using CardMatch.Game.Events;
 
-namespace CardMatch.GameState
+namespace CardMatch.Game.State
 {
     public class GameStateBase : IGameState
     {

@@ -131,6 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardMatch.CardView
   image: {fileID: 2666317236883186741}
+  cardTransform: {fileID: 7375811069068918131}
 --- !u!1 &7432551776572143829
 GameObject:
   m_ObjectHideFlags: 0

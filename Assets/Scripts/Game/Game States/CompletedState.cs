@@ -1,10 +1,6 @@
-using CardMatch.GameEvent;
-using CardMatch.GameState;
-using CardMatch;
-using UnityEngine;
-using UnityEngine.InputSystem.XR;
+using CardMatch.Game.Events;
 
-namespace CardMatch.GameState
+namespace CardMatch.Game.State
 {
     public class CompletedState : GameStateBase
     {              

@@ -1,8 +1,6 @@
-using System;
 using CardMatch.Audio;
-using CardMatch.GameEvent;
+using CardMatch.Game.Events;
 using CardMatch.UI.Events;
-using UnityEngine;
 
 namespace CardMatch.UI
 {    

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CardMatch
+namespace CardMatch.Game.Cards
 {
     /// Interface for sprite management
     public interface ISpriteProvider

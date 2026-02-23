@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CardMatch
+namespace CardMatch.Game.Cards
 {
     // Setup-time interface. Used only by CardFactory and allocation strategies.
     // Do not use in game logic — use ICard instead.

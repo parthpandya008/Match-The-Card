@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace CardMatch.Factory
+namespace CardMatch.Game.Cards.Factory
 {
     public class CardFactory 
     {

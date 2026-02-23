@@ -1388,9 +1388,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 643360671}
     - target: {fileID: 6308209988122195112, guid: 1472d322a52e0ce4dbb2d9d61fb025a8, type: 3}
+      propertyPath: gamePanel
+      value: 
+      objectReference: {fileID: 3164088935610252216}
+    - target: {fileID: 6308209988122195112, guid: 1472d322a52e0ce4dbb2d9d61fb025a8, type: 3}
       propertyPath: uiManager
       value: 
       objectReference: {fileID: 759007342}
+    - target: {fileID: 6308209988122195112, guid: 1472d322a52e0ce4dbb2d9d61fb025a8, type: 3}
+      propertyPath: cardContainer
+      value: 
+      objectReference: {fileID: 105570208559565086}
     - target: {fileID: 6558153966204468626, guid: 1472d322a52e0ce4dbb2d9d61fb025a8, type: 3}
       propertyPath: gamePanel
       value: 

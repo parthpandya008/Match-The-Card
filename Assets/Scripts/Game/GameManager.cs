@@ -1,8 +1,9 @@
 using CardMatch.Audio;
-using CardMatch.Factory;
-using CardMatch.GameEvent;
+using CardMatch.Game;
+using CardMatch.Game.Cards;
+using CardMatch.Game.Cards.Factory;
+using CardMatch.Game.Events;
 using CardMatch.Score;
-using CardMatch.Services;
 using CardMatch.UI;
 using CardMatch.UI.Events;
 using UnityEngine;

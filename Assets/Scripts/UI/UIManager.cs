@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using CardMatch.Audio;
-using CardMatch.GameEvent;
+using CardMatch.Game.Events;
 using CardMatch.Score;
-using CardMatch.UI;
 using CardMatch.UI.Events;
 using UnityEngine;
 

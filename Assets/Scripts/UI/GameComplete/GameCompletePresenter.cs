@@ -1,7 +1,5 @@
-using CardMatch.GameEvent;
+using CardMatch.Game.Events;
 using CardMatch.Score;
-using CardMatch.UI;
-using UnityEngine;
 using System;
 
 namespace CardMatch.UI

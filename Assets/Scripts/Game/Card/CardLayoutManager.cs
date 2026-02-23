@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CardMatch.Layout
+namespace CardMatch.Game.Cards
 {
     // Calculates card positions and sizes for grid layout
     public class CardLayoutManager
