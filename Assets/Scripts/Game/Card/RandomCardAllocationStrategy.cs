@@ -30,8 +30,10 @@ namespace CardMatch
             // Assign sprite IDs  to cards
             for (int i = 0; i < cards.Length; i++)
             {
-                cards[i].SpriteID = spriteIds[i];
-                //TODO: activate the card
+                if (cards[i] is ICardInitializer setup)
+                {
+                    setup.SpriteID = spriteIds[i];
+                }                                    
             }
         }
 

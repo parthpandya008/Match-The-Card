@@ -100,8 +100,11 @@ namespace CardMatch.Factory
             cardObject.transform.localScale = new Vector3(scale.x, scale.y, 1f);
 
             // Initialize with dependencies
-            card.Initialize(spriteProvider);
-            card.ID = cardId;                       
+            if (card is ICardInitializer setup)
+            {
+                setup.Initialize(spriteProvider);
+                setup.ID = cardId;
+            }                    
 
             return card;
         }

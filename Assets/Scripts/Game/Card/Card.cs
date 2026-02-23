@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace CardMatch
 {
     // Card controller - manages card state and coordinates with view
-    public class Card : MonoBehaviour, ICard
+    public class Card : MonoBehaviour, ICard, ICardInitializer
     {
         #region Fields
         [SerializeField] private CardView cardView;
@@ -43,7 +43,7 @@ namespace CardMatch
        
         public CardType CardType => cardType;       
         public bool IsFlipped => isFlipped;
-        public CardView View => cardView;
+        public bool IsAnimating => cardView.IsAnimating;
 
         #endregion
 

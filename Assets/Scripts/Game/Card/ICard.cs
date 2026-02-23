@@ -7,13 +7,16 @@ namespace CardMatch
     /// Interface for any clickable card implementation
     public interface ICard
     {
-        int ID { get; set; }
-        int SpriteID { get; set; }
+        //read-only access to ID and SpriteID, because game logic should only observe, never mutate it.
+        // To set ID or SpriteID, use ICardInitializer 
+        int ID { get;}
+        int SpriteID { get;}
         CardType CardType { get;}
-        CardView View { get; }
+
+        bool IsAnimating { get; }
 
         bool IsFlipped { get;} //// true = face up
-        void Initialize(ISpriteProvider provider);
+       
         void Flip(bool faceUp);
         void SetMatched();
 

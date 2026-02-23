@@ -157,8 +157,7 @@ namespace CardMatch
 
         private void OnCardClicked(ICard card)
         {           
-            if (currentState is not PlayingState || isProcessingMatch 
-                        || card.View == null || card.View.IsAnimating)
+            if (currentState is not PlayingState || isProcessingMatch || card.IsAnimating)
             {
                 return;
             }                                
