@@ -36,7 +36,7 @@ namespace CardMatch.Game.State
         {
             if (gameEvents != null)
             {
-                gameEvents.OnCardsMismatched += OnCardsMismatched;
+                gameEvents.OnCardsMismatched -= OnCardsMismatched;
             }           
         }
 
