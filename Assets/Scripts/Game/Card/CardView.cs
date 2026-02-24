@@ -10,9 +10,9 @@ namespace CardMatch.Game.Cards
     {
         [SerializeField] private Image image;
         [SerializeField] private RectTransform cardTransform;
-        
-        //TODO:Add FLIP_DURATION into a config or difficulty settings/ GameData (Scriptable Object)
-        //Or as per the game requirement
+
+        // TODO: Move to grid-specific configuration
+        // These timing values should be part of a GridConfig/LevelConfig ScriptableObject
         private const float FLIP_DURATION = 0.75f; // Total duration in seconds
         private bool isAnimating = false;
 

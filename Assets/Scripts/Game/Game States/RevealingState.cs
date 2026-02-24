@@ -6,8 +6,8 @@ namespace CardMatch.Game.State
     public class RevealingState : GameStateBase
     {
         private float revealTime;
-        //TODO: Move this to a config or difficulty settings/ GameData (Scriptable Object)
-        //OR [As per the requirement]
+        // TODO: Move to grid-specific configuration
+        // These timing values should be part of a GridConfig/LevelConfig ScriptableObject
         private const float REVEAL_DURATION = 1f;
 
         public RevealingState(GameController controller, GameEvents events)

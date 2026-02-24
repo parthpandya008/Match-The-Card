@@ -43,7 +43,8 @@ namespace CardMatch.Game
         //Card match       
         private int remainingPairs;       
         private float cardMatchTimer;
-        
+        // TODO: Move to grid-specific configuration
+        // These timing values should be part of a GridConfig/LevelConfig ScriptableObject
         private const int MATCH_CHECK_WAIT_DURATION = 1000; // milliseconds
         #endregion
 
