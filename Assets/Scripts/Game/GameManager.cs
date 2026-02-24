@@ -75,6 +75,20 @@ namespace CardMatch
             uiEvents.OnStartButtonClicked -= StartGame;
             uiEvents.OnStopButtonClicked -= StopGame;
         }
+
+        private void OnApplicationQuit()
+        {
+            gameController?.ResetGame();
+            scoreManager?.OnApplicationQuit();
+        }
+
+        private void OnApplicationPause(bool pause)
+        {
+            //TODO: Set the PauseState (pause the time, save the current game progress (Grid size, Matched cards, Remaining pairs, etc))
+            //On resume reset the game progress (from the pause state) and go to the previous state of the PauseState
+
+            scoreManager?.OnApplicationPause(pause);
+        }
         #endregion
 
         #region Game Callbacks 
