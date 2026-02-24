@@ -66,7 +66,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPoolManager
   pools:
   - prefab: {fileID: 1745550632022806235, guid: 8c81f54525f87d645912aecc8437b302, type: 3}
-    initialSize: 50
+    initialSize: 25
     tempParent: {fileID: 0}
     autoExpand: 1
   defaultParent: {fileID: 0}

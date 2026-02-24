@@ -18,18 +18,18 @@ namespace CardMatch.Game
         #region Dependencies
         // Injected dependencies
         private GameEvents gameEvents;
-        private ISpriteProvider spriteProvider;
-        
-        private CardFactory cardFactory;
-        private ScoreManager scoreManager;
+        private ISpriteProvider spriteProvider;                
         private IAudioService audioService;
         private AudioConfig audioConfig;
+        private ScoreManager scoreManager;
         #endregion
 
         #region Internal Systems
         // Internal systems
+        private CardFactory cardFactory;        
         private CardLayoutManager layoutManager;
-        private ICardAllocationStrategy allocationStrategy;        
+        private ICardAllocationStrategy allocationStrategy;  
+        private IMatchProcessor matchProcessor;
         #endregion
 
         #region Game Feilds
@@ -40,15 +40,10 @@ namespace CardMatch.Game
         #endregion
 
         #region Card Match Feilds
-        //Card match
-        private int firstSelectedCardId = -1;
-        private int secondSelectedCardId = -1;
-        private int remainingPairs;
-        private bool isProcessingMatch = false;
+        //Card match       
+        private int remainingPairs;       
         private float cardMatchTimer;
-
-        //TODO:Add MATCH_CHECK_WAIT_DURATION into a config or difficulty settings/ GameData(Scriptable Object)
-        //Or as per the game requirement
+        
         private const int MATCH_CHECK_WAIT_DURATION = 1000; // milliseconds
         #endregion
 
@@ -85,13 +80,15 @@ namespace CardMatch.Game
                 return;
             }
             gameEvents = events;
-            this.spriteProvider = spriteProvider;            
+            this.spriteProvider = spriteProvider;
+            this.scoreManager = scoreManager;
+            this.audioService = audioService;
+            this.audioConfig = audioConfig;
+
             layoutManager = new CardLayoutManager(gamePanel);
             allocationStrategy = new RandomCardAllocationStrategy();
             cardFactory = new CardFactory(cardContainer,spriteProvider, objectPoolManager, cardFactoryConfig);
-            this.scoreManager = scoreManager;
-            this.audioService = audioService;
-            this.audioConfig = audioConfig;            
+            matchProcessor = new DefaultMatchProcessor(gameEvents, audioService, audioConfig);
 
             InitializeStates();
             ChangeState(idleState);      
@@ -115,9 +112,8 @@ namespace CardMatch.Game
             // Calculate layout ( supports rows x cols)
             CardLayoutData layout = layoutManager?.CalculateLayout(currentRows, currentCols);
             remainingPairs = layout.TotalCards / 2;
-            firstSelectedCardId = -1;
-            secondSelectedCardId = -1;
-            
+            matchProcessor?.Reset();
+
             // Spawn cards
             for (int i = 0; i < layout.TotalCards; i++)
             {
@@ -152,12 +148,16 @@ namespace CardMatch.Game
 
         private void OnCardClicked(ICard card)
         {           
-            if (currentState is not PlayingState || isProcessingMatch || card.IsAnimating)
+            if (currentState is not PlayingState || card.IsAnimating
+                    || matchProcessor == null || matchProcessor.IsProcessing)
             {
                 return;
-            }                                
-
-             ProcessCardSelection(card);            
+            }
+            bool shouldCheckMatch = matchProcessor.ProcessSelection(card);
+            if (shouldCheckMatch)
+            {
+                CheckMatchAsync();
+            }                     
         }
 
         public void SetCardMatchTimer(float elapsedTime)
@@ -172,72 +172,19 @@ namespace CardMatch.Game
 
         #endregion
 
-        #region Match Logic
-        private void  ProcessCardSelection(ICard card)
-        {
-            card.Flip(!card.IsFlipped);
-            gameEvents.RaiseCardFlipped(card.ID);
-            audioService?.Play(audioConfig?.CardClickData);
-            // Track selection
-            if (firstSelectedCardId == -1)
-            {
-                // First card selected
-                firstSelectedCardId = card.ID;
-                Logger.Log($"First card selected: {card.ID} (Sprite: {card.SpriteID})");
-            }
-            else if (secondSelectedCardId == -1 && card.ID != firstSelectedCardId)
-            {
-                // Second card selected
-                secondSelectedCardId = card.ID;
-                Logger.Log($"Second card selected: {card.ID} (Sprite: {card.SpriteID})");
-
-                // Check for match
-                isProcessingMatch = true;
-
-                CheckMatchAsync();
-
-            }
-        }
+        #region Match Logic        
         private async void CheckMatchAsync()
         {
-            // Wait a moment so player can see both cards
-            await Task.Delay(MATCH_CHECK_WAIT_DURATION); // milliseconds
+            var result = await matchProcessor?.CheckMatchAsync(MATCH_CHECK_WAIT_DURATION);
             if (currentState is not PlayingState)
-            {
                 return;
-            }
 
-            ICard firstCard = cards[firstSelectedCardId];
-            ICard secondCard = cards[secondSelectedCardId];
-
-            if (firstCard.SpriteID == secondCard.SpriteID)
+            if(result.IsMatch)
             {
-                // MATCH!
-                Logger.Log($"MATCH! Cards {firstCard.ID} and {secondCard.ID} (Sprite: {firstCard.SpriteID})");
-
-                firstCard.SetMatched();
-                secondCard.SetMatched();
                 remainingPairs--;
                 CheckGameWin();
-
-                gameEvents.RaiseCardsMatched(firstCard.ID, secondCard.ID);
                 gameEvents.RaiseRemainingCardsChanged(remainingPairs);
-            }
-            else
-            {
-                // NO MATCH
-                Logger.Log($"No match. {firstCard.ID}(S:{firstCard.SpriteID}) != {secondCard.ID}(S:{secondCard.SpriteID})");
-
-                firstCard.Flip(false);
-                secondCard.Flip(false);
-
-                gameEvents.RaiseCardsMismatched(firstCard.ID, secondCard.ID);
-            }
-
-            // Reset selection
-            firstSelectedCardId = -1;
-            secondSelectedCardId = -1;
-            isProcessingMatch = false;
+            }            
         }       
         
         private void CheckGameWin()
@@ -271,10 +218,8 @@ namespace CardMatch.Game
                 cards[i].OnCardClicked -= OnCardClicked;
             }
             cards.Clear();           
-            remainingPairs = -1;
-            firstSelectedCardId = -1;
-            secondSelectedCardId = -1;
-            isProcessingMatch = false;
+            remainingPairs = -1;            
+            matchProcessor.Reset();
             ChangeState(idleState);
 
             gameEvents.RaiseGameReset();
